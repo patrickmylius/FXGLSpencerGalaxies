@@ -38,6 +38,7 @@ import static com.almasb.fxgl.dsl.FXGL.*;
     //TODO - Look into all timers, to better the game flow.
     //TODO - Fix frozen Enemies move pattern.
     //TODO - Fix entity pixel move speed and velocity. Game play might be abit to slow.
+    //TODO - Fix particelEmitters, makes game burn to much CPU.
     /** DESIGNS */
     //TODO - New HighScore Design
     //TODO - New Icon Design
@@ -46,7 +47,7 @@ import static com.almasb.fxgl.dsl.FXGL.*;
     //TODO - BOSS1,2,3 Spawn Sound Effect + 3 Theme Songs.
     //TODO - BOSS1,2,3 BULLET SOUND EFFECT
     //TODO - (Explosions sound effects}
-    //TODO - Implement Game completede at etc points.
+    //TODO - Implement Game End/Won at etc points.
 public class BasicGameApp extends GameApplication{
     /**
      * Creates window 900x800, setTitle to Basic Game App, Version 0.1
