@@ -42,6 +42,7 @@ import static com.almasb.fxgl.dsl.FXGL.*;
     //TODO - New HighScore Design
     //TODO - New Icon Design
     /** IMPLEMENTS */
+    //TODO - IMPLEMENT CountnDown Buff bar for player.
     //TODO - BOSS1,2,3 Spawn Sound Effect + 3 Theme Songs.
     //TODO - BOSS1,2,3 BULLET SOUND EFFECT
     //TODO - (Explosions sound effects}
