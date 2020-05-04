@@ -1,0 +1,21 @@
+************************************
+SRC High Scores
+************************************
+Player Patrick: your score ended as: 500
+************************************
+Player Daller: your score ended as: 500
+************************************
+Player Patrick: your score ended as: 6500
+************************************
+Player Andreas: your score ended as: 6500
+************************************
+Player Morten: your score ended as: 12500
+************************************
+Player Palle: your score ended as: 3500
+************************************
+Player Mosegård: your score ended as: 1500
+************************************
+Player PrintToFile: your score ended as: 1000
+************************************
+Player Tester: your score ended as: 750
+************************************
