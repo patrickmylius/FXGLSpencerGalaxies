@@ -37,7 +37,7 @@ import static com.almasb.fxgl.dsl.FXGL.*;
 /** FIXES */
 //TODO - Look into all timers, to better the game flow.
 //TODO - Fix frozen Enemies move pattern.
-//TODO - Fix particelEmitters, makes game burn to much CPU.
+//TODO - Fix the 1.5 sec player can shoot, during dead and before safeRespawn is called
 /** DESIGNS */
 //TODO - New HighScore Design
 //TODO - New Icon Design
