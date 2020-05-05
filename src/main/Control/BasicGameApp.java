@@ -34,20 +34,26 @@ import java.util.List;
 import java.util.Map;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
-    /** FIXES */
-    //TODO - Look into all timers, to better the game flow.
-    //TODO - Fix frozen Enemies move pattern.
-    //TODO - Fix entity pixel move speed and velocity. Game play might be abit to slow.
-    //TODO - Fix particelEmitters, makes game burn to much CPU.
-    /** DESIGNS */
-    //TODO - New HighScore Design
-    //TODO - New Icon Design
-    /** IMPLEMENTS */
-    //TODO - IMPLEMENT CountnDown Buff bar for player.
-    //TODO - BOSS1,2,3 Spawn Sound Effect + 3 Theme Songs.
-    //TODO - BOSS1,2,3 BULLET SOUND EFFECT
-    //TODO - (Explosions sound effects}
-    //TODO - Implement Game End/Won at etc points.
+/** FIXES */
+//TODO - Look into all timers, to better the game flow.
+//TODO - Fix frozen Enemies move pattern.
+//TODO - Fix particelEmitters, makes game burn to much CPU.
+/** DESIGNS */
+//TODO - New HighScore Design
+//TODO - New Icon Design
+/** IMPLEMENTS */
+//TODO - IMPLEMENT CountnDown Buff bar for player.
+//TODO - Implement Game End/Won at etc points.
+/**SOUND EFFECTS*/
+//TODO - BOSS1,2,3 Spawn Sound Effect + 3 Theme Songs + BULLETFIRE SOUND EFFECT, BULLETHIT SOUND EFFECT.
+//TODO - BOSS1,2,3 BULLET SOUND EFFECT
+//TODO - Explosion sound effects(Bosses, player, enemyEaten, enemyFrozenCollide, enemy shot)
+//TODO - SOUND EFFECTS; WEAPONSPAWNS, PICKUP WeaponBuffs.
+//TODO - PlayerBullets sound effects.
+/**MUSICS*/
+//TODO - BOSS MUSICS
+//TODO - FrozenBuff Music
+//TODO - WeaponBuff Music
 public class BasicGameApp extends GameApplication{
     /**
      * Creates window 900x800, setTitle to Basic Game App, Version 0.1
@@ -191,7 +197,7 @@ public class BasicGameApp extends GameApplication{
                     enemy = getGameWorld().spawn("Enemy", getAppHeight() / (Math.random() * 10) + (1),
                             getAppWidth() / (Math.random() * 200) + (1));
                     getAudioPlayer().playSound(evilPuffEntrySound);
-                }, Duration.seconds(5));
+                }, Duration.seconds(4));
                 TimerEnemy.resume();
                 /** Engage Timer for stampede mode, at game start, pause and only unpause, during Weapon Powerups*/
                 TimerStampede = getGameTimer().runAtInterval(() ->
@@ -199,13 +205,13 @@ public class BasicGameApp extends GameApplication{
                     enemy = getGameWorld().spawn("Enemy", getAppHeight() / (Math.random() * 10) + (1),
                             getAppWidth() / (Math.random() * 200) + (1));
                     getAudioPlayer().playSound(evilPuffEntrySound);
-                }, Duration.seconds(2));
+                }, Duration.seconds(1));
                 TimerStampede.pause();
             /** Spawns new coin every 8 second*/
                 TimerCoin = getGameTimer().runAtInterval(() -> {
                     coin = getGameWorld().spawn("Coin");
                     getAudioPlayer().playSound(coinEntrySound);
-                }, Duration.seconds(4));
+                }, Duration.seconds(5));
                 TimerCoin.resume();
             /** Spawns powerup every 35 second */
                 TimerPowerUp = getGameTimer().runAtInterval(() -> {
@@ -287,15 +293,16 @@ public class BasicGameApp extends GameApplication{
                 if (!safeRespawn){
                     Sound playerSwallowed = getAssetLoader().loadSound("playerEaten.wav");
                     getAudioPlayer().playSound(playerSwallowed);
+                    onPlayerDeath();
                     player.removeFromWorld();
                     spawn("ParticleExplosionPlayerEaten", player.getCenter());
-                    onPlayerDeath();
                     if (playerLives > 0){
+                        canShoot = false;
                         runOnce(() ->{
                             respawn();
                             /** Sets how long player is removed from map, before respawning timer starts*/
                             },Duration.seconds(1.5));
-                    }
+                    }canShoot = true;
                 }
             }
         });
@@ -305,15 +312,16 @@ public class BasicGameApp extends GameApplication{
                 if (!safeRespawn){
                     Sound playerSwallowed = getAssetLoader().loadSound("playerEaten.wav");
                     getAudioPlayer().playSound(playerSwallowed);
+                    onPlayerDeath();
                     player.removeFromWorld();
                     spawn("ParticleExplosionPlayerEaten", player.getCenter());
-                    onPlayerDeath();
                     if (playerLives > 0){
+                        canShoot = false;
                         runOnce(() ->{
                             respawn();
                             /** Sets how long player is removed from map, before respawning timer starts*/
                         },Duration.seconds(1.5));
-                    }
+                    }canShoot = true;
                 }
             }
         });
@@ -323,15 +331,16 @@ public class BasicGameApp extends GameApplication{
                 if (!safeRespawn){
                     Sound playerSwallowed = getAssetLoader().loadSound("playerEaten.wav");
                     getAudioPlayer().playSound(playerSwallowed);
+                    onPlayerDeath();
                     player.removeFromWorld();
                     spawn("ParticleExplosionPlayerEaten", player.getCenter());
-                    onPlayerDeath();
                     if (playerLives > 0){
+                        canShoot = false;
                         runOnce(() ->{
                             respawn();
                             /** Sets how long player is removed from map, before respawning timer starts*/
                         },Duration.seconds(1.5));
-                    }
+                    }canShoot = true;
                 }
             }
         });
@@ -423,18 +432,18 @@ public class BasicGameApp extends GameApplication{
         getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.BOSS1BULLET, EntityType.PLAYER){
             @Override
             protected void onCollisionBegin(Entity boss1BulletHit, Entity player){
-                if (!safeRespawn) {
-                    canShoot = false;
+                if (!safeRespawn){
                     spawn("ParticleExplosionPlayerShotDead", player.getCenter());
-                    player.removeFromWorld();
                     onPlayerDeath();
+                    player.removeFromWorld();
                     //If playerLives are higher than 0, call respawn();
-                    if (playerLives > 0) {
+                    if (playerLives > 0){
+                        canShoot = false;
                         runOnce(() -> {
                             respawn();
                             /** Sets how long player is removed from map, before respawning timer starts*/
-                        }, Duration.seconds(1.5));
-                    } canShoot = true;
+                        }, Duration.seconds(2));
+                    }canShoot = true;
                 }
             }
         });
@@ -442,36 +451,36 @@ public class BasicGameApp extends GameApplication{
             @Override
             protected void onCollisionBegin(Entity boss2BulletHit, Entity player){
                 if (!safeRespawn) {
-                    canShoot = false;
                     spawn("ParticleExplosionPlayerShotDead", player.getCenter());
-                    player.removeFromWorld();
                     onPlayerDeath();
+                    player.removeFromWorld();
                     //If playerLives are higher than 0, call respawn();
                     if (playerLives > 0) {
+                        canShoot = false;
                         runOnce(() -> {
                             respawn();
                             /** Sets how long player is removed from map, before respawning timer starts*/
                         }, Duration.seconds(1.5));
-                    }
-                } canShoot = true;
+                    }canShoot = true;
+                }
             }
         });
         getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.BOSS3BULLET, EntityType.PLAYER){
             @Override
             protected void onCollisionBegin(Entity boss3BulletHit, Entity player){
                 if (!safeRespawn) {
-                    canShoot = false;
                     spawn("ParticleExplosionPlayerShotDead", player.getCenter());
-                    player.removeFromWorld();
                     onPlayerDeath();
+                    player.removeFromWorld();
                     //If playerLives are higher than 0, call respawn();
                     if (playerLives > 0) {
+                        canShoot = false;
                         runOnce(() -> {
                             respawn();
                             /** Sets how long player is removed from map, before respawning timer starts*/
-                        }, Duration.seconds(1.5));
-                    }
-                } canShoot = true;
+                        }, Duration.seconds(1.3));
+                    }canShoot = true;
+                }
             }
         });
 /** Handles Collisions with Player and Evil puff and if player is powered up, including saveRespawn*/
@@ -481,16 +490,17 @@ public class BasicGameApp extends GameApplication{
                 if (!hasPowerUp && !safeRespawn && !hasFreezePower){
                     Sound playerSwallowed = getAssetLoader().loadSound("playerEaten.wav");
                     getAudioPlayer().playSound(playerSwallowed);
+                    onPlayerDeath();
                     player.removeFromWorld();
                     spawn("ParticleExplosionPlayerEaten", player.getCenter());
-                    onPlayerDeath();
                     //if playerLives are higher than 0, call respawn();
                     if (playerLives > 0) {
+                        canShoot = false;
                         runOnce(() -> {
                             respawn();
                             /** Sets how long player is removed from map, before respawning timer starts*/
                         }, Duration.seconds(1.5));
-                    }
+                    } canShoot = true;
                 }
                 if (hasPowerUp){
                     Sound evilPuffEaten = getAssetLoader().loadSound("evilPuffEaten.wav");
@@ -594,7 +604,7 @@ public class BasicGameApp extends GameApplication{
                 if (rightWallTouched) //If player unit collides with right wall,"Move Right" function stops until false.
                     return;
                     //player.translateX(3); //Move right, 3 pixels, for 5760x1080
-                    player.translateX(5); //Move right 5 pixels for 1920x1080
+                    player.translateX(6); //Move right 5 pixels for 1920x1080
                     //getGameState().increment("pixelsMoved", +3); Tracks pixels moved right
             }
         }, KeyCode.D);
@@ -605,7 +615,7 @@ public class BasicGameApp extends GameApplication{
                 if (leftWallTouched) //If player unit collides with left wall,"Move Left" function stops until false.
                     return;
                 //player.translateX(-3); //move left -3 pixels. for 5760x1080
-                player.translateX(-5); //move left -5 pixels, for 1920x1080
+                player.translateX(-6); //move left -5 pixels, for 1920x1080
                 //getGameState().increment("pixelsMoved", +3); Tracks pixels moved left
             }
         }, KeyCode.A);
@@ -616,7 +626,7 @@ public class BasicGameApp extends GameApplication{
                 if (topWallTouched) //If player unit collides with top wall,"Move Up" function stops until false.
                     return;
                 //player.translateY(-3); //move -3 pixels up, for 5760x1080
-                player.translateY(-5); //move -5 pixels up
+                player.translateY(-6); //move -5 pixels up
             }
         }, KeyCode.W);
 
@@ -626,7 +636,7 @@ public class BasicGameApp extends GameApplication{
                 if (bottomWallTouched) //If player unit collides with bottom wall,"Move Down" function stops until false.
                     return;
                 //player.translateY(3); //move 3 pixels down, for 5760x1080
-                player.translateY(5); //move down 5 pixels, for 1920x1080
+                player.translateY(6); //move down 5 pixels, for 1920x1080
                 //getGameState().increment("pixelsMoved", +3); Tracks pixels moved down
             }
         }, KeyCode.S);
@@ -646,7 +656,7 @@ public class BasicGameApp extends GameApplication{
                             runOnce(() -> {
                                 canShoot = true;
                                 /** Sets timer for shooting */
-                            }, Duration.seconds(0.5));
+                            }, Duration.seconds(0.4));
                         }
                     }
                     if (hasWeapon2Power && !bossFightOn){
@@ -661,7 +671,7 @@ public class BasicGameApp extends GameApplication{
                             runOnce(() -> {
                                 canShoot = true;
                                 /** Sets timer for shooting */
-                            }, Duration.seconds(1));
+                            }, Duration.seconds(0.75));
                         }
                     }
                     if (hasWeapon3Power && !bossFightOn){
@@ -676,7 +686,7 @@ public class BasicGameApp extends GameApplication{
                             runOnce(() -> {
                                 canShoot = true;
                                 /** Sets timer for shooting */
-                            }, Duration.seconds(0.1));
+                            }, Duration.seconds(0.2));
                         }
                     }
                     if (bossFightOn){
@@ -704,7 +714,7 @@ public class BasicGameApp extends GameApplication{
                             runOnce(() -> {
                                 canShoot = true;
                                 /** Sets timer for shooting */
-                            }, Duration.seconds(0.6));
+                            }, Duration.seconds(0.75));
                         }
                         if (canShoot && boss3Alive && !safeRespawn){
                             canShoot = false;
@@ -717,7 +727,7 @@ public class BasicGameApp extends GameApplication{
                             runOnce(() -> {
                                 canShoot = true;
                                 /** Sets timer for shooting */
-                            }, Duration.seconds(0.1));
+                            }, Duration.seconds(0.2));
                         }
 
                     }
@@ -836,6 +846,7 @@ public class BasicGameApp extends GameApplication{
                 spawn("boss1Bullet", spawnData);
             }, Duration.seconds(1.75));
         }
+        //if (totalScore > 500 && totalScore < 1500 && !boss2Spawned){
         if (totalScore > 49000 && totalScore < 50000 && !boss2Spawned){
             bossFightClearRoom();
             boss2 = getGameWorld().spawn("Boss2", getAppHeight() / 2, getAppWidth() / 2);
@@ -851,6 +862,7 @@ public class BasicGameApp extends GameApplication{
                 spawn("boss2Bullet", spawnData);
             }, Duration.seconds(1.5));
         }
+        //if (totalScore > 500 && totalScore < 1500 && !boss3Spawned){
         if (totalScore > 94000 && totalScore < 95000 && !boss3Spawned){
             bossFightClearRoom();
             boss3 = getGameWorld().spawn("Boss3", getAppHeight() / 2, getAppWidth() / 2);
@@ -920,7 +932,6 @@ public class BasicGameApp extends GameApplication{
      * Player death method, decreases lives by 1, if player collides with Evil Puff
      */
     public void onPlayerDeath(){
-        canShoot = false;
         getGameState().increment("lives", -1);
         playerLives--;
     }
@@ -951,6 +962,8 @@ public class BasicGameApp extends GameApplication{
     public void playerFreezePowerUp(){
         UIFreezeText = getGameWorld().spawn("playerBuffText", new SpawnData(200, 40).put("text", "ENEMY FROZEN KNOCK EM OUT"));
         hasFreezePower = true;
+        //getAudioPlayer().stopMusic(music);
+        //getAudioPlayer().playMusic();
         TimerPowerUp.pause();
         TimerFreezePowerUp.pause();
         getAudioPlayer().stopMusic(music);
@@ -968,6 +981,8 @@ public class BasicGameApp extends GameApplication{
     public void playerFreezePowerOff(){
         hasFreezePower = false;
         UIFreezeText.removeFromWorld();
+        //getAudioPlayer().stopMusic();
+        //getAudioPlayer().playMusic(music);
         TimerPowerUp.resume();
         TimerFreezePowerUp.resume();
         getAudioPlayer().playMusic(music);
@@ -984,6 +999,7 @@ public class BasicGameApp extends GameApplication{
         hasWeapon1Power = true;
         enemyStampede = true;
         //getAudioPlayer().stopMusic(music);
+        //getAudioPlayer().playMusic();
         TimerPowerUp.pause();
         TimerFreezePowerUp.pause();
         TimerStampede.resume();
@@ -996,6 +1012,7 @@ public class BasicGameApp extends GameApplication{
         enemyStampede = false;
         TimerPowerUp.resume();
         TimerFreezePowerUp.resume();
+        //getAudioPlayer().stopMusic();
         //getAudioPlayer().playMusic(music);
         TimerStampede.pause();
         FXGL.set("playerWeapon1Up", false);
@@ -1008,6 +1025,7 @@ public class BasicGameApp extends GameApplication{
         TimerPowerUp.pause();
         TimerFreezePowerUp.pause();
         //getAudioPlayer().stopMusic(music);
+        //getAudioPlayer().playMusic();
         TimerStampede.resume();
         FXGL.set("enemyStampede", true);
         FXGL.set("playerWeapon2Up", true);
@@ -1018,6 +1036,7 @@ public class BasicGameApp extends GameApplication{
         enemyStampede = false;
         TimerPowerUp.resume();
         TimerFreezePowerUp.resume();
+        //getAudioPlayer().stopMusic();
         //getAudioPlayer().playMusic(music);
         TimerStampede.pause();
         FXGL.set("playerWeapon2Up", false);
@@ -1030,6 +1049,7 @@ public class BasicGameApp extends GameApplication{
         TimerPowerUp.pause();
         TimerFreezePowerUp.pause();
         //getAudioPlayer().stopMusic(music);
+        //getAudioPlayer().playMusic();
         TimerStampede.resume();
         FXGL.set("enemyStampede", true);
         FXGL.set("playerWeapon3Up", true);
@@ -1041,12 +1061,15 @@ public class BasicGameApp extends GameApplication{
         TimerPowerUp.resume();
         TimerFreezePowerUp.resume();
         playerPowerOff();
+        //getAudioPlayer().stopMusic();
         //getAudioPlayer().playMusic(music);
         TimerStampede.pause();
         FXGL.set("playerWeapon3Up", false);
         FXGL.set("enemyStampede", false);
     }
     public void bossFightClearRoom(){
+        //getAudioPlayer().stopMusic(music);
+        //getAudioPlayer().playMusic();
         bossFightOn = true;
         enemyStampede = false;
         FXGL.set("bossFightOn", true);
@@ -1138,7 +1161,6 @@ public class BasicGameApp extends GameApplication{
         getAudioPlayer().playSound(respawn);
         FXGL.runOnce(() ->{
             safeRespawn = false;
-            canShoot = true;
             /** Sets respawn timer, where player is not able to collide with evilPuffs for the duration*/
             }, Duration.seconds(3));
     }

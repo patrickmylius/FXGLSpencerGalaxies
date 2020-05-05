@@ -31,26 +31,25 @@ public class EnemyComponent extends Component {
             entity.getViewComponent().clearChildren();
             entity.getViewComponent().addChild(FXGL.texture("enemyFrozen.gif"));
         }
-        else {
+        else{
             entity.getViewComponent().clearChildren();
             entity.getViewComponent().addChild(FXGL.texture("enemy.gif"));
         }
-            if (entity.getX() < 0) {
+            if (entity.getX() < 0){
                 entity.setX(0);
                 entity.setProperty("velocity", new Point2D(-velocity.getX(), velocity.getY()));
             }
-            if (entity.getRightX() > 900) {
+            if (entity.getRightX() > 900){
                 entity.setX(900 - 55);
                 entity.setProperty("velocity", new Point2D(-velocity.getX(), velocity.getY()));
             }
-            if (entity.getY() < 0) {
+            if (entity.getY() < 0){
                 entity.setY(0);
                 entity.setProperty("velocity", new Point2D(velocity.getX(), -velocity.getY()));
             }
-            if (entity.getBottomY() > 800) {
+            if (entity.getBottomY() > 800){
                 entity.setY(800 - 55);
                 entity.setProperty("velocity", new Point2D(velocity.getX(), -velocity.getY()));
             }
-
     }
 }

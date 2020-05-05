@@ -103,7 +103,7 @@ public class BasicGameFactory implements EntityFactory{
                 .view(hpView)
                 .with(hp)
                 .with(new CollidableComponent(true))
-                .with("velocityBoss", new Point2D((Math.random() * 1.5) + 3.00, (Math.random() * 1.5) + 3.00))
+                .with("velocityBoss", new Point2D((Math.random() * 1.25) + 3.5, (Math.random() * 1.25) + 3.5))
                 .with(new BossComponent())
                 .build();
     }
@@ -125,7 +125,7 @@ public class BasicGameFactory implements EntityFactory{
                 .with(hp)
                 .with(new CollidableComponent(true))
                 .with(new BossComponent())
-                .with("velocityBoss", new Point2D((Math.random() * 1.5) + 3.00, (Math.random() * 1.5) + 3.00))
+                .with("velocityBoss", new Point2D((Math.random() * 1.25) + 3.5, (Math.random() * 1.25) + 3.5))
                 .build();
     }
     @Spawns("Boss3")
@@ -146,7 +146,7 @@ public class BasicGameFactory implements EntityFactory{
                 .with(hp)
                 .with(new CollidableComponent(true))
                 .with(new BossComponent())
-                .with("velocityBoss", new Point2D((Math.random() * 1.5) + 3.00, (Math.random() * 1.5) + 3.00))
+                .with("velocityBoss", new Point2D((Math.random() * 1.25) + 3.5, (Math.random() * 1.25) + 3.5))
                 .build();
     }
     @Spawns("Coin")
@@ -188,7 +188,7 @@ public class BasicGameFactory implements EntityFactory{
                 .type(EntityType.FROZENCIRCLE)
                 .with(new FrozenCircleAnimation())
                 .at(data.getX() - 450, data.getY() - 450)
-                .with(new ExpireCleanComponent(Duration.seconds(6.0)))
+                .with(new ExpireCleanComponent(Duration.seconds(4.0)))
                 .build();
     }
     @Spawns("PlayerWeapon1")
@@ -232,7 +232,7 @@ public class BasicGameFactory implements EntityFactory{
         physics.setFixtureDef(new FixtureDef().restitution(1f).density(0.03f));
         ParticleEmitter emitter = ParticleEmitters.newFireEmitter();
         emitter.setNumParticles(8);
-        emitter.setEmissionRate(0.5);
+        emitter.setEmissionRate(0.1);
         emitter.setStartColor(Color.YELLOW);
         emitter.setEndColor(Color.RED);
         emitter.setBlendMode(BlendMode.ADD);
@@ -241,7 +241,7 @@ public class BasicGameFactory implements EntityFactory{
                 .at(owner.getCenter().add(-3, 18))
                 .viewWithBBox(new Rectangle(10, 10, javafx.scene.paint.Color.GOLD))
                 .with(new CollidableComponent(true))
-                .with(new ProjectileComponent(data.get("direction"), 400), new ParticleComponent(emitter))
+                .with(new ProjectileComponent(data.get("direction"), 700), new ParticleComponent(emitter))
                 .with(new OffscreenCleanComponent(), new OwnerComponent(owner.getType()))
                 .build();
     }
@@ -253,8 +253,8 @@ public class BasicGameFactory implements EntityFactory{
         physics.setBodyType(BodyType.DYNAMIC);
         physics.setFixtureDef(new FixtureDef().restitution(1f).density(0.03f));
         ParticleEmitter emitter = ParticleEmitters.newFireEmitter();
-        emitter.setNumParticles(8);
-        emitter.setEmissionRate(0.1);
+        emitter.setNumParticles(6);
+        emitter.setEmissionRate(0.05);
         emitter.setStartColor(Color.YELLOW);
         emitter.setEndColor(Color.WHITE);
         emitter.setBlendMode(BlendMode.ADD);
@@ -264,7 +264,7 @@ public class BasicGameFactory implements EntityFactory{
                 .at(owner.getCenter().add(-3, 18))
                 .viewWithBBox(new Rectangle(30, 20, Color.GRAY))
                 .with(new CollidableComponent(true))
-                .with(new ProjectileComponent(data.get("direction"), 350), new ParticleComponent(emitter))
+                .with(new ProjectileComponent(data.get("direction"), 500), new ParticleComponent(emitter))
                 .with(new OffscreenCleanComponent(), new OwnerComponent(owner.getType()))
                 .build();
     }
@@ -276,8 +276,8 @@ public class BasicGameFactory implements EntityFactory{
         physics.setBodyType(BodyType.DYNAMIC);
         physics.setFixtureDef(new FixtureDef().restitution(1f).density(0.03f));
         ParticleEmitter emitter = ParticleEmitters.newFireEmitter();
-        emitter.setNumParticles(5);
-        emitter.setEmissionRate(0.5);
+        emitter.setNumParticles(8);
+        emitter.setEmissionRate(0.25);
         emitter.setStartColor(Color.GREENYELLOW);
         emitter.setEndColor(Color.YELLOW);
         emitter.setBlendMode(BlendMode.ADD);
@@ -287,7 +287,7 @@ public class BasicGameFactory implements EntityFactory{
                 .at(owner.getCenter().add(-3, 18))
                 .viewWithBBox(new Rectangle(20, 15, Color.YELLOW))
                 .with(new CollidableComponent(true))
-                .with(new ProjectileComponent(data.get("direction"), 500), new ParticleComponent(emitter))
+                .with(new ProjectileComponent(data.get("direction"), 900), new ParticleComponent(emitter))
                 .with(new OffscreenCleanComponent(), new OwnerComponent(owner.getType()))
                 .build();
     }
@@ -298,9 +298,9 @@ public class BasicGameFactory implements EntityFactory{
         physics.setBodyType(BodyType.KINEMATIC);
         physics.setFixtureDef(new FixtureDef().restitution(1f).density(0.003f));
         ParticleEmitter emitter = ParticleEmitters.newFireEmitter();
-        emitter.setNumParticles(4);
-        emitter.setSize(12, 25);
-        emitter.setEmissionRate(0.2);
+        emitter.setNumParticles(6);
+        emitter.setSize(8, 15);
+        emitter.setEmissionRate(0.3);
         emitter.setStartColor(Color.BLUE);
         emitter.setEndColor(Color.YELLOW);
         emitter.setBlendMode(BlendMode.ADD);
@@ -309,7 +309,7 @@ public class BasicGameFactory implements EntityFactory{
                 .type(EntityType.BOSS1BULLET)
                 .at(owner.getCenter().add(-3, 18))
                 .viewWithBBox("boss1Bullet.gif")
-                .with(new ProjectileComponent(data.get("direction"), 350), new CollidableComponent(true), new ParticleComponent(emitter))
+                .with(new ProjectileComponent(data.get("direction"), 450), new CollidableComponent(true), new ParticleComponent(emitter))
                 .with(new OffscreenCleanComponent(), new OwnerComponent(owner.getType()))
                 .build();
     }
@@ -320,10 +320,10 @@ public class BasicGameFactory implements EntityFactory{
         physics.setBodyType(BodyType.KINEMATIC);
         physics.setFixtureDef(new FixtureDef().restitution(1f).density(0.003f));
         ParticleEmitter emitter = ParticleEmitters.newFireEmitter();
-        emitter.setNumParticles(6);
-        emitter.setSize(2, 40);
-        emitter.setEmissionRate(0.1);
+        emitter.setNumParticles(8);
+        emitter.setSize(2, 20);
         emitter.setStartColor(Color.YELLOW);
+        emitter.setEmissionRate(0.4);
         emitter.setEndColor(Color.RED);
         emitter.setBlendMode(BlendMode.ADD);
 
@@ -331,7 +331,7 @@ public class BasicGameFactory implements EntityFactory{
                 .type(EntityType.BOSS2BULLET)
                 .at(owner.getCenter().add(-3, 18))
                 .viewWithBBox("boss2Bullet.gif")
-                .with(new ProjectileComponent(data.get("direction"), 250), new CollidableComponent(true), new ParticleComponent(emitter))
+                .with(new ProjectileComponent(data.get("direction"), 600), new CollidableComponent(true), new ParticleComponent(emitter))
                 .with(new OffscreenCleanComponent(), new OwnerComponent(owner.getType()))
                 .build();
     }
@@ -342,9 +342,9 @@ public class BasicGameFactory implements EntityFactory{
         physics.setBodyType(BodyType.DYNAMIC);
         physics.setFixtureDef(new FixtureDef().restitution(1f).density(0.003f));
         ParticleEmitter emitter = ParticleEmitters.newFireEmitter();
-        emitter.setNumParticles(6);
-        emitter.setSize(5, 30);
-        emitter.setEmissionRate(0.05);
+        emitter.setNumParticles(10);
+        emitter.setSize(5, 15);
+        emitter.setEmissionRate(0.6);
         emitter.setStartColor(Color.DARKGREEN);
         emitter.setEndColor(Color.DARKGREEN);
         emitter.setBlendMode(BlendMode.ADD);
@@ -352,7 +352,7 @@ public class BasicGameFactory implements EntityFactory{
                 .type(EntityType.BOSS3BULLET)
                 .at(owner.getCenter().add(-3, 18))
                 .viewWithBBox("boss3bullet.gif")
-                .with(new ProjectileComponent(data.get("direction"), 300), new CollidableComponent(true), new ParticleComponent(emitter))
+                .with(new ProjectileComponent(data.get("direction"), 800), new CollidableComponent(true), new ParticleComponent(emitter))
                 .with(new OffscreenCleanComponent(), new OwnerComponent(owner.getType()))
                 .build();
     }
@@ -378,7 +378,7 @@ public class BasicGameFactory implements EntityFactory{
         ParticleEmitter emitter = ParticleEmitters.newExplosionEmitter((200));
         emitter.setStartColor(Color.ORANGERED);
         emitter.setEndColor(Color.YELLOW);
-        emitter.setNumParticles(10);
+        emitter.setNumParticles(8);
         emitter.setEmissionRate(0.5);
         emitter.setSize(4,20);
         emitter.setBlendMode(BlendMode.ADD);
@@ -510,7 +510,7 @@ public class BasicGameFactory implements EntityFactory{
         ParticleEmitter emitter = ParticleEmitters.newExplosionEmitter((200));
         emitter.setStartColor(Color.BLUE);
         emitter.setEndColor(Color.LIGHTBLUE);
-        emitter.setNumParticles(5);
+        emitter.setNumParticles(6);
         emitter.setEmissionRate(0.5);
         emitter.setSize(3,20);
         emitter.setBlendMode(BlendMode.ADD);

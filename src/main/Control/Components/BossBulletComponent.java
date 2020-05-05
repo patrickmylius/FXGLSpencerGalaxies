@@ -5,10 +5,10 @@ import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.entity.component.Required;
 
 @Required(OwnerComponent.class)
-public class Boss1BulletComponent extends Component {
+public class BossBulletComponent extends Component {
     private OwnerComponent owner;
     private double speed;
-    public Boss1BulletComponent(double speed) {
+    public BossBulletComponent(double speed) {
         this.speed = speed;
     }
 

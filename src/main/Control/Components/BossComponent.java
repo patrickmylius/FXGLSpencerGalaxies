@@ -27,15 +27,15 @@ public class BossComponent extends Component {
             entity.setProperty("velocityBoss", new Point2D(-velocity.getX(), velocity.getY()));
         }
         if (entity.getRightX() > 900){
-            entity.setX(900 - 100);
+            entity.setX(900 - 110);
             entity.setProperty("velocityBoss", new Point2D(-velocity.getX(), velocity.getY()));
         }
         if (entity.getY() < 0){
             entity.setY(0);
             entity.setProperty("velocityBoss", new Point2D(velocity.getX(), -velocity.getY()));
         }
-        if (entity.getBottomY() > 900){
-            entity.setY(900 - 100);
+        if (entity.getBottomY() > 800){
+            entity.setY(800 - 110);
             entity.setProperty("velocityBoss", new Point2D(velocity.getX(), -velocity.getY()));
         }
     }
