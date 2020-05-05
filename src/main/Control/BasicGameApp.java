@@ -961,7 +961,7 @@ public class BasicGameApp extends GameApplication{
             }, Duration.seconds(1));
         List<Entity> evilPuff = getGameWorld().getEntitiesFiltered(p -> p.isType(EntityType.ENEMY));
         for (int i = 0; i <evilPuff.size() ; i++){
-            evilPuff.get(i).setProperty("velocity", new Point2D((Math.random() * 0.25) + 0.50, (Math.random() * 0.25) + 0.50));
+            evilPuff.get(i).setProperty("velocity", new Point2D((Math.random() * 0.5) + 1, (Math.random() * 0.5) + 1));
         }
         FXGL.set("freezePoweredUp", true);
     }
@@ -1138,6 +1138,7 @@ public class BasicGameApp extends GameApplication{
         getAudioPlayer().playSound(respawn);
         FXGL.runOnce(() ->{
             safeRespawn = false;
+            canShoot = true;
             /** Sets respawn timer, where player is not able to collide with evilPuffs for the duration*/
             }, Duration.seconds(3));
     }
