@@ -253,8 +253,8 @@ public class BasicGameFactory implements EntityFactory{
         physics.setBodyType(BodyType.DYNAMIC);
         physics.setFixtureDef(new FixtureDef().restitution(1f).density(0.03f));
         ParticleEmitter emitter = ParticleEmitters.newFireEmitter();
-        emitter.setNumParticles(6);
-        emitter.setEmissionRate(0.05);
+        emitter.setNumParticles(5);
+        emitter.setEmissionRate(0.2);
         emitter.setStartColor(Color.YELLOW);
         emitter.setEndColor(Color.WHITE);
         emitter.setBlendMode(BlendMode.ADD);
@@ -299,8 +299,8 @@ public class BasicGameFactory implements EntityFactory{
         physics.setFixtureDef(new FixtureDef().restitution(1f).density(0.003f));
         ParticleEmitter emitter = ParticleEmitters.newFireEmitter();
         emitter.setNumParticles(6);
-        emitter.setSize(8, 15);
-        emitter.setEmissionRate(0.3);
+        emitter.setSize(10, 20);
+        emitter.setEmissionRate(0.1);
         emitter.setStartColor(Color.BLUE);
         emitter.setEndColor(Color.YELLOW);
         emitter.setBlendMode(BlendMode.ADD);
@@ -321,9 +321,9 @@ public class BasicGameFactory implements EntityFactory{
         physics.setFixtureDef(new FixtureDef().restitution(1f).density(0.003f));
         ParticleEmitter emitter = ParticleEmitters.newFireEmitter();
         emitter.setNumParticles(8);
-        emitter.setSize(2, 20);
+        emitter.setSize(12, 20);
         emitter.setStartColor(Color.YELLOW);
-        emitter.setEmissionRate(0.4);
+        emitter.setEmissionRate(0.1);
         emitter.setEndColor(Color.RED);
         emitter.setBlendMode(BlendMode.ADD);
 
@@ -343,8 +343,8 @@ public class BasicGameFactory implements EntityFactory{
         physics.setFixtureDef(new FixtureDef().restitution(1f).density(0.003f));
         ParticleEmitter emitter = ParticleEmitters.newFireEmitter();
         emitter.setNumParticles(10);
-        emitter.setSize(5, 15);
-        emitter.setEmissionRate(0.6);
+        emitter.setSize(12, 20);
+        emitter.setEmissionRate(0.1);
         emitter.setStartColor(Color.DARKGREEN);
         emitter.setEndColor(Color.DARKGREEN);
         emitter.setBlendMode(BlendMode.ADD);

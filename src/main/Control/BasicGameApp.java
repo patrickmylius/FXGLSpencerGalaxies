@@ -85,6 +85,7 @@ public class BasicGameApp extends GameApplication{
     private boolean bottomWallTouched;
     private boolean hasPowerUp;
     private boolean safeRespawn;
+    private boolean playerIsDead;
     private boolean powerUpAlive;
     private boolean hasFreezePower;
     private boolean freezePowerAlive;
@@ -161,6 +162,7 @@ public class BasicGameApp extends GameApplication{
 
         playerLives = 3;
         safeRespawn = false;
+        playerIsDead = false;
         leftWallTouched = false;
         rightWallTouched = false;
         topWallTouched = false;
@@ -296,13 +298,13 @@ public class BasicGameApp extends GameApplication{
                     onPlayerDeath();
                     player.removeFromWorld();
                     spawn("ParticleExplosionPlayerEaten", player.getCenter());
-                    if (playerLives > 0){
-                        canShoot = false;
-                        runOnce(() ->{
-                            respawn();
-                            /** Sets how long player is removed from map, before respawning timer starts*/
-                            },Duration.seconds(1.5));
-                    }canShoot = true;
+//                    if (playerLives > 0){
+//                        canShoot = false;
+//                        runOnce(() ->{
+//                            respawn();
+//                            /** Sets how long player is removed from map, before respawning timer starts*/
+//                            },Duration.seconds(1.5));
+//                    }canShoot = true;
                 }
             }
         });
@@ -315,13 +317,13 @@ public class BasicGameApp extends GameApplication{
                     onPlayerDeath();
                     player.removeFromWorld();
                     spawn("ParticleExplosionPlayerEaten", player.getCenter());
-                    if (playerLives > 0){
-                        canShoot = false;
-                        runOnce(() ->{
-                            respawn();
-                            /** Sets how long player is removed from map, before respawning timer starts*/
-                        },Duration.seconds(1.5));
-                    }canShoot = true;
+//                    if (playerLives > 0){
+//                        canShoot = false;
+//                        runOnce(() ->{
+//                            respawn();
+//                            /** Sets how long player is removed from map, before respawning timer starts*/
+//                        },Duration.seconds(1.5));
+//                    }canShoot = true;
                 }
             }
         });
@@ -334,13 +336,13 @@ public class BasicGameApp extends GameApplication{
                     onPlayerDeath();
                     player.removeFromWorld();
                     spawn("ParticleExplosionPlayerEaten", player.getCenter());
-                    if (playerLives > 0){
-                        canShoot = false;
-                        runOnce(() ->{
-                            respawn();
-                            /** Sets how long player is removed from map, before respawning timer starts*/
-                        },Duration.seconds(1.5));
-                    }canShoot = true;
+//                    if (playerLives > 0){
+//                        canShoot = false;
+//                        runOnce(() ->{
+//                  //          respawn();
+//                  //          /** Sets how long player is removed from map, before respawning timer starts*/
+//                 //       },Duration.seconds(1.5));
+//                //    }canShoot = true;
                 }
             }
         });
@@ -437,13 +439,13 @@ public class BasicGameApp extends GameApplication{
                     onPlayerDeath();
                     player.removeFromWorld();
                     //If playerLives are higher than 0, call respawn();
-                    if (playerLives > 0){
-                        canShoot = false;
-                        runOnce(() -> {
-                            respawn();
-                            /** Sets how long player is removed from map, before respawning timer starts*/
-                        }, Duration.seconds(2));
-                    }canShoot = true;
+                    //if (playerLives > 0){
+                    //    canShoot = false;
+                    //    runOnce(() -> {
+                    //        respawn();
+                    //        /** Sets how long player is removed from map, before respawning timer starts*/
+                     //   }, Duration.seconds(2));
+                  // }canShoot = true;
                 }
             }
         });
@@ -455,13 +457,13 @@ public class BasicGameApp extends GameApplication{
                     onPlayerDeath();
                     player.removeFromWorld();
                     //If playerLives are higher than 0, call respawn();
-                    if (playerLives > 0) {
-                        canShoot = false;
-                        runOnce(() -> {
-                            respawn();
-                            /** Sets how long player is removed from map, before respawning timer starts*/
-                        }, Duration.seconds(1.5));
-                    }canShoot = true;
+                   // if (playerLives > 0) {
+                   //    canShoot = false;
+                   //     runOnce(() -> {
+                   //        respawn();
+                   //        /** Sets how long player is removed from map, before respawning timer starts*/
+                   //     }, Duration.seconds(1.5));
+                   // }canShoot = true;
                 }
             }
         });
@@ -473,13 +475,13 @@ public class BasicGameApp extends GameApplication{
                     onPlayerDeath();
                     player.removeFromWorld();
                     //If playerLives are higher than 0, call respawn();
-                    if (playerLives > 0) {
-                        canShoot = false;
-                        runOnce(() -> {
-                            respawn();
-                            /** Sets how long player is removed from map, before respawning timer starts*/
-                        }, Duration.seconds(1.3));
-                    }canShoot = true;
+                    //if (playerLives > 0) {
+                    //   canShoot = false;
+                    //    runOnce(() -> {
+                    //        respawn();
+                    //        /** Sets how long player is removed from map, before respawning timer starts*/
+                   //     }, Duration.seconds(1.3));
+                   //}canShoot = true;
                 }
             }
         });
@@ -494,13 +496,13 @@ public class BasicGameApp extends GameApplication{
                     player.removeFromWorld();
                     spawn("ParticleExplosionPlayerEaten", player.getCenter());
                     //if playerLives are higher than 0, call respawn();
-                    if (playerLives > 0) {
-                        canShoot = false;
-                        runOnce(() -> {
-                            respawn();
-                            /** Sets how long player is removed from map, before respawning timer starts*/
-                        }, Duration.seconds(1.5));
-                    } canShoot = true;
+                    //if (playerLives > 0) {
+                    //    canShoot = false;
+                    //    runOnce(() -> {
+                    //        respawn();
+                    //        /** Sets how long player is removed from map, before respawning timer starts*/
+                    //    }, Duration.seconds(1.5));
+                   // } canShoot = true;
                 }
                 if (hasPowerUp){
                     Sound evilPuffEaten = getAssetLoader().loadSound("evilPuffEaten.wav");
@@ -645,7 +647,7 @@ public class BasicGameApp extends GameApplication{
                 @Override
                 protected void onAction(){
                     if (hasWeapon1Power && !bossFightOn){
-                        if (canShoot && !safeRespawn){
+                        if (canShoot && !safeRespawn && !playerIsDead){
                             canShoot = false;
                             Point2D point2D = player.getPosition();
                             SpawnData spawnData = new SpawnData(point2D);
@@ -660,7 +662,7 @@ public class BasicGameApp extends GameApplication{
                         }
                     }
                     if (hasWeapon2Power && !bossFightOn){
-                        if (canShoot && !safeRespawn){
+                        if (canShoot && !safeRespawn && !playerIsDead){
                             canShoot = false;
                             Point2D point2D = player.getPosition();
                             SpawnData spawnData = new SpawnData(point2D);
@@ -675,7 +677,7 @@ public class BasicGameApp extends GameApplication{
                         }
                     }
                     if (hasWeapon3Power && !bossFightOn){
-                        if (canShoot && !safeRespawn){
+                        if (canShoot && !safeRespawn && !playerIsDead){
                             canShoot = false;
                             Point2D point2D = player.getPosition();
                             SpawnData spawnData = new SpawnData(point2D);
@@ -690,7 +692,7 @@ public class BasicGameApp extends GameApplication{
                         }
                     }
                     if (bossFightOn){
-                        if (canShoot && boss1Alive && !safeRespawn){
+                        if (canShoot && boss1Alive && !safeRespawn && !playerIsDead){
                             canShoot = false;
                             Point2D point2D = player.getPosition();
                             SpawnData spawnData = new SpawnData(point2D);
@@ -703,7 +705,7 @@ public class BasicGameApp extends GameApplication{
                                  /** Sets timer for shooting */
                                  }, Duration.seconds(0.4));
                         }
-                        if (canShoot && boss2Alive && !safeRespawn){
+                        if (canShoot && boss2Alive && !safeRespawn && !playerIsDead){
                             canShoot = false;
                             Point2D point2D = player.getPosition();
                             SpawnData spawnData = new SpawnData(point2D);
@@ -716,7 +718,7 @@ public class BasicGameApp extends GameApplication{
                                 /** Sets timer for shooting */
                             }, Duration.seconds(0.75));
                         }
-                        if (canShoot && boss3Alive && !safeRespawn){
+                        if (canShoot && boss3Alive && !safeRespawn && !playerIsDead){
                             canShoot = false;
                             Point2D point2D = player.getPosition();
                             SpawnData spawnData = new SpawnData(point2D);
@@ -862,8 +864,8 @@ public class BasicGameApp extends GameApplication{
                 spawn("boss2Bullet", spawnData);
             }, Duration.seconds(1.5));
         }
-        //if (totalScore > 500 && totalScore < 1500 && !boss3Spawned){
-        if (totalScore > 94000 && totalScore < 95000 && !boss3Spawned){
+        if (totalScore > 500 && totalScore < 1500 && !boss3Spawned){
+        //if (totalScore > 94000 && totalScore < 95000 && !boss3Spawned){
             bossFightClearRoom();
             boss3 = getGameWorld().spawn("Boss3", getAppHeight() / 2, getAppWidth() / 2);
             boss3Alive = true;
@@ -932,8 +934,16 @@ public class BasicGameApp extends GameApplication{
      * Player death method, decreases lives by 1, if player collides with Evil Puff
      */
     public void onPlayerDeath(){
+        playerIsDead = true;
         getGameState().increment("lives", -1);
         playerLives--;
+        if (playerLives > 0) {
+            canShoot = false;
+            runOnce(() -> {
+                respawn();
+                /** Sets how long player is removed from map, before respawning timer starts*/
+            }, Duration.seconds(1.5));
+        }
     }
     public void playerPowerUp(){
         UIPowerText = getGameWorld().spawn("playerBuffText", new SpawnData(200,40).put("text", "UNIVERSAL POWERS CONSUME ENEMIES"));
@@ -1161,6 +1171,8 @@ public class BasicGameApp extends GameApplication{
         getAudioPlayer().playSound(respawn);
         FXGL.runOnce(() ->{
             safeRespawn = false;
+            playerIsDead = false;
+            canShoot = true;
             /** Sets respawn timer, where player is not able to collide with evilPuffs for the duration*/
             }, Duration.seconds(3));
     }
