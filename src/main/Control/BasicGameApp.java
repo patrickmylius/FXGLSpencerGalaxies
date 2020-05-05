@@ -1,5 +1,4 @@
 package main.Control;
-
 import main.Menues.SpencerGameMenu;
 import main.Menues.SpencerMainMenu;
 import main.Control.Handlers.FreezePowerHandler;
@@ -28,19 +27,17 @@ import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.util.Duration;
-
 import java.io.*;
 import java.util.List;
 import java.util.Map;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 /** FIXES */
-//TODO - Look into all timers, to better the game flow.
 //TODO - Fix frozen Enemies move pattern.
-//TODO - Fix the 1.5 sec player can shoot, during dead and before safeRespawn is called
 /** DESIGNS */
 //TODO - New HighScore Design
 //TODO - New Icon Design
+//TODO - New Game State (map freeze gif map corners. (Working out the idea)
 /** IMPLEMENTS */
 //TODO - IMPLEMENT CountnDown Buff bar for player.
 //TODO - Implement Game End/Won at etc points.
@@ -55,9 +52,7 @@ import static com.almasb.fxgl.dsl.FXGL.*;
 //TODO - FrozenBuff Music
 //TODO - WeaponBuff Music
 public class BasicGameApp extends GameApplication{
-    /**
-     * Creates window 900x800, setTitle to Basic Game App, Version 0.1
-     */
+    /*** Creates window 900x800, setTitle to Basic Game App, Version 0.1*/
     @Override
     protected void initSettings(GameSettings gameSettings) {
         gameSettings.setWidth(900);
@@ -76,9 +71,7 @@ public class BasicGameApp extends GameApplication{
             }
         });
     }
-    /**
-     * Creates variables
-     */
+    /*** Creates variables*/
     private boolean leftWallTouched;
     private boolean rightWallTouched;
     private boolean topWallTouched;
@@ -146,9 +139,8 @@ public class BasicGameApp extends GameApplication{
 
     private String playerName;
     private String log = "************************************\nPokeBounce High Scores \n************************************";
-    /**
-     * initialize game method, spawns evilPuffs, launch spawn sound.
-     */
+
+    /*** Initialize Game */
     @Override
     protected void initGame() {
         getAudioPlayer().stopMusic(menuMusic);
@@ -221,7 +213,7 @@ public class BasicGameApp extends GameApplication{
                     UIEntityText = getGameWorld().spawn("entityText", new SpawnData(powerUp.getX(), powerUp.getY() - 10).put("text", "Power"));
                     getAudioPlayer().playSound(powerUpEntrySound);
                     powerUpAlive = true;
-                }, Duration.seconds(33));
+                }, Duration.seconds(29));
                 TimerPowerUp.resume();
             /** Spawns FreezeUp, every 60 second */
                 TimerFreezePowerUp = getGameTimer().runAtInterval(() -> {
@@ -234,10 +226,8 @@ public class BasicGameApp extends GameApplication{
         }
         /** Create new Entity (Player) */
         player = spawn("Player", new Point2D(300, 300));
-
         /** Creates frame repeating 1-3 on background and creates view*/
         getGameScene().setBackgroundRepeat("spencerBackground.png");
-
         /** adds RIGHTWALL as entity*/
         leftWall = entityBuilder()
                 .type(EntityType.LEFTWALL)
@@ -496,7 +486,6 @@ public class BasicGameApp extends GameApplication{
                 leftWallTouched = false;
             }
         });
-
         /** Adds unitCollision to right wall and player unit*/
         getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.RIGHTWALL) {
             @Override
@@ -508,7 +497,6 @@ public class BasicGameApp extends GameApplication{
                 rightWallTouched = false;
             }
         });
-
         /** Adds unitCollision to top wall and player unit*/
         getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.TOPWALL) {
             @Override
@@ -543,7 +531,6 @@ public class BasicGameApp extends GameApplication{
     @Override
     protected void initInput(){
         Input input = getInput();
-
         input.addAction(new UserAction("Move Right"){
             @Override
             protected void onAction(){
@@ -942,7 +929,7 @@ public class BasicGameApp extends GameApplication{
         FXGL.set("freezePoweredUp", false);
     }
     public void playerWeapon1On(){
-        UIStampedeText = getGameWorld().spawn("stampedeText", new SpawnData(200, 40).put("text", "ENEMY ON STAMPEDE USE FIREBALL"));
+        UIStampedeText = getGameWorld().spawn("stampedeText", new SpawnData(200, 40).put("text", "ENEMY ON STAMPEDE USE FIREBALL [PRIMARY MOUSE]"));
         hasWeapon1Power = true;
         enemyStampede = true;
         //getAudioPlayer().stopMusic(music);
@@ -966,7 +953,7 @@ public class BasicGameApp extends GameApplication{
         FXGL.set("enemyStampede", false);
     }
     public void playerWeapon2On(){
-        UIStampedeText = getGameWorld().spawn("stampedeText", new SpawnData(200, 40).put("text", "ENEMY ON STAMPEDE USE CANNON"));
+        UIStampedeText = getGameWorld().spawn("stampedeText", new SpawnData(200, 40).put("text", "ENEMY ON STAMPEDE USE CANNON [PRIMARY MOUSE]"));
         hasWeapon2Power = true;
         enemyStampede = true;
         TimerPowerUp.pause();
@@ -990,7 +977,7 @@ public class BasicGameApp extends GameApplication{
         FXGL.set("enemyStampede", false);
     }
     public void playerWeapon3On(){
-        UIStampedeText = getGameWorld().spawn("stampedeText", new SpawnData(200, 40).put("text", "ENEMY ON STAMPEDE USE LIGHTNING"));
+        UIStampedeText = getGameWorld().spawn("stampedeText", new SpawnData(200, 40).put("text", "ENEMY ON STAMPEDE USE LIGHTNING [PRIMARY MOUSE]"));
         hasWeapon3Power = true;
         enemyStampede = true;
         TimerPowerUp.pause();
@@ -1029,7 +1016,7 @@ public class BasicGameApp extends GameApplication{
         for (int i = 0; i <enemies.size() ; i++){
             enemies.get(i).removeFromWorld();
         }
-        UIBossFightText = getGameWorld().spawn("bossText", new SpawnData(200, 40).put("text", "BOSS MODE, USE FIREARMS"));
+        UIBossFightText = getGameWorld().spawn("bossText", new SpawnData(200, 40).put("text", "BOSS MODE, USE FIREARMS [PRIMARY MOUSE]"));
     }
     public void killBoss1(Entity boss1){
         UIBossFightText.removeFromWorld();
