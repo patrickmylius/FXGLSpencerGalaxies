@@ -298,13 +298,6 @@ public class BasicGameApp extends GameApplication{
                     onPlayerDeath();
                     player.removeFromWorld();
                     spawn("ParticleExplosionPlayerEaten", player.getCenter());
-//                    if (playerLives > 0){
-//                        canShoot = false;
-//                        runOnce(() ->{
-//                            respawn();
-//                            /** Sets how long player is removed from map, before respawning timer starts*/
-//                            },Duration.seconds(1.5));
-//                    }canShoot = true;
                 }
             }
         });
@@ -317,13 +310,6 @@ public class BasicGameApp extends GameApplication{
                     onPlayerDeath();
                     player.removeFromWorld();
                     spawn("ParticleExplosionPlayerEaten", player.getCenter());
-//                    if (playerLives > 0){
-//                        canShoot = false;
-//                        runOnce(() ->{
-//                            respawn();
-//                            /** Sets how long player is removed from map, before respawning timer starts*/
-//                        },Duration.seconds(1.5));
-//                    }canShoot = true;
                 }
             }
         });
@@ -336,13 +322,81 @@ public class BasicGameApp extends GameApplication{
                     onPlayerDeath();
                     player.removeFromWorld();
                     spawn("ParticleExplosionPlayerEaten", player.getCenter());
-//                    if (playerLives > 0){
-//                        canShoot = false;
-//                        runOnce(() ->{
-//                  //          respawn();
-//                  //          /** Sets how long player is removed from map, before respawning timer starts*/
-//                 //       },Duration.seconds(1.5));
-//                //    }canShoot = true;
+                }
+            }
+        });
+        getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.BOSS1BULLET, EntityType.PLAYER){
+            @Override
+            protected void onCollisionBegin(Entity boss1BulletHit, Entity player){
+                if (!safeRespawn){
+                    spawn("ParticleExplosionPlayerShotDead", player.getCenter());
+                    onPlayerDeath();
+                    player.removeFromWorld();
+                }
+            }
+        });
+        getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.BOSS2BULLET, EntityType.PLAYER){
+            @Override
+            protected void onCollisionBegin(Entity boss2BulletHit, Entity player){
+                if (!safeRespawn) {
+                    spawn("ParticleExplosionPlayerShotDead", player.getCenter());
+                    onPlayerDeath();
+                    player.removeFromWorld();
+                }
+            }
+        });
+        getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.BOSS3BULLET, EntityType.PLAYER){
+            @Override
+            protected void onCollisionBegin(Entity boss3BulletHit, Entity player){
+                if (!safeRespawn) {
+                    spawn("ParticleExplosionPlayerShotDead", player.getCenter());
+                    onPlayerDeath();
+                    player.removeFromWorld();
+                }
+            }
+        });
+/** Handles Collisions with Player and Evil puff and if player is powered up, including saveRespawn*/
+        getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.ENEMY) {
+            @Override
+            protected void onCollisionBegin(Entity playerEaten, Entity enemy){
+                if (!hasPowerUp && !safeRespawn && !hasFreezePower){
+                    Sound playerSwallowed = getAssetLoader().loadSound("playerEaten.wav");
+                    getAudioPlayer().playSound(playerSwallowed);
+                    onPlayerDeath();
+                    player.removeFromWorld();
+                    spawn("ParticleExplosionPlayerEaten", player.getCenter());
+                }
+                if (hasPowerUp){
+                    Sound evilPuffEaten = getAssetLoader().loadSound("evilPuffEaten.wav");
+                    getAudioPlayer().playSound(evilPuffEaten);
+                    spawn("ParticleExplosionPowerUp", enemy.getCenter());
+                    spawn("scoreText", new SpawnData(enemy.getX(), enemy.getY()).put("text", "500"));
+                    enemy.removeFromWorld();
+                    getGameState().increment("score", +500);
+                    /** adds 500 points to totalScore for the log, every time player eats EvilPuff */
+                    totalScore = totalScore + 500;
+                }
+                if (hasFreezePower){
+                    Point2D velocity = enemy.getObject("velocity");
+                    enemy.translate(velocity);
+                    //If player and enemy collides during freeze powerup, enemy will change direction.
+                    enemy.setProperty("velocity", new Point2D( (Math.random() * 1.5) + 7.0, (Math.random() * 1.5) + 7.0));
+                    Sound EnemyFreezeKnock = getAssetLoader().loadSound("EnemyFreezeKnock.wav");
+                    getAudioPlayer().playSound(EnemyFreezeKnock);
+                    spawn("scoreText", new SpawnData(enemy.getX(), enemy.getY()).put("text", "100"));
+                    getGameState().increment("score", +100);
+                    /** adds 100 points to totalScore for the log, every time player knocks away enemy */
+                    totalScore = totalScore + 100;
+                }
+            }
+        });
+        getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.ENEMY, EntityType.ENEMY){
+            @Override protected void onCollisionBegin(Entity enemy1, Entity enemy2){
+                if (hasFreezePower){
+                    spawn("FrozenEnemyExplosion", enemy1.getPosition());
+                    spawn("FrozenEnemyExplosion", enemy2.getPosition());
+                    enemy1.removeFromWorld();
+                    enemy2.removeFromWorld();
                 }
             }
         });
@@ -431,114 +485,6 @@ public class BasicGameApp extends GameApplication{
                 totalScore = totalScore + 250;
             }
         });
-        getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.BOSS1BULLET, EntityType.PLAYER){
-            @Override
-            protected void onCollisionBegin(Entity boss1BulletHit, Entity player){
-                if (!safeRespawn){
-                    spawn("ParticleExplosionPlayerShotDead", player.getCenter());
-                    onPlayerDeath();
-                    player.removeFromWorld();
-                    //If playerLives are higher than 0, call respawn();
-                    //if (playerLives > 0){
-                    //    canShoot = false;
-                    //    runOnce(() -> {
-                    //        respawn();
-                    //        /** Sets how long player is removed from map, before respawning timer starts*/
-                     //   }, Duration.seconds(2));
-                  // }canShoot = true;
-                }
-            }
-        });
-        getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.BOSS2BULLET, EntityType.PLAYER){
-            @Override
-            protected void onCollisionBegin(Entity boss2BulletHit, Entity player){
-                if (!safeRespawn) {
-                    spawn("ParticleExplosionPlayerShotDead", player.getCenter());
-                    onPlayerDeath();
-                    player.removeFromWorld();
-                    //If playerLives are higher than 0, call respawn();
-                   // if (playerLives > 0) {
-                   //    canShoot = false;
-                   //     runOnce(() -> {
-                   //        respawn();
-                   //        /** Sets how long player is removed from map, before respawning timer starts*/
-                   //     }, Duration.seconds(1.5));
-                   // }canShoot = true;
-                }
-            }
-        });
-        getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.BOSS3BULLET, EntityType.PLAYER){
-            @Override
-            protected void onCollisionBegin(Entity boss3BulletHit, Entity player){
-                if (!safeRespawn) {
-                    spawn("ParticleExplosionPlayerShotDead", player.getCenter());
-                    onPlayerDeath();
-                    player.removeFromWorld();
-                    //If playerLives are higher than 0, call respawn();
-                    //if (playerLives > 0) {
-                    //   canShoot = false;
-                    //    runOnce(() -> {
-                    //        respawn();
-                    //        /** Sets how long player is removed from map, before respawning timer starts*/
-                   //     }, Duration.seconds(1.3));
-                   //}canShoot = true;
-                }
-            }
-        });
-/** Handles Collisions with Player and Evil puff and if player is powered up, including saveRespawn*/
-        getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.ENEMY) {
-            @Override
-            protected void onCollisionBegin(Entity playerEaten, Entity enemy){
-                if (!hasPowerUp && !safeRespawn && !hasFreezePower){
-                    Sound playerSwallowed = getAssetLoader().loadSound("playerEaten.wav");
-                    getAudioPlayer().playSound(playerSwallowed);
-                    onPlayerDeath();
-                    player.removeFromWorld();
-                    spawn("ParticleExplosionPlayerEaten", player.getCenter());
-                    //if playerLives are higher than 0, call respawn();
-                    //if (playerLives > 0) {
-                    //    canShoot = false;
-                    //    runOnce(() -> {
-                    //        respawn();
-                    //        /** Sets how long player is removed from map, before respawning timer starts*/
-                    //    }, Duration.seconds(1.5));
-                   // } canShoot = true;
-                }
-                if (hasPowerUp){
-                    Sound evilPuffEaten = getAssetLoader().loadSound("evilPuffEaten.wav");
-                    getAudioPlayer().playSound(evilPuffEaten);
-                    spawn("ParticleExplosionPowerUp", enemy.getCenter());
-                    spawn("scoreText", new SpawnData(enemy.getX(), enemy.getY()).put("text", "500"));
-                    enemy.removeFromWorld();
-                    getGameState().increment("score", +500);
-                    /** adds 500 points to totalScore for the log, every time player eats EvilPuff */
-                    totalScore = totalScore + 500;
-                }
-                if (hasFreezePower){
-                    Point2D velocity = enemy.getObject("velocity");
-                    enemy.translate(velocity);
-                    //If player and enemy collides during freeze powerup, enemy will change direction.
-                    enemy.setProperty("velocity", new Point2D( (Math.random() * 1.5) + 7.0, (Math.random() * 1.5) + 7.0));
-                    Sound EnemyFreezeKnock = getAssetLoader().loadSound("EnemyFreezeKnock.wav");
-                    getAudioPlayer().playSound(EnemyFreezeKnock);
-                    spawn("scoreText", new SpawnData(enemy.getX(), enemy.getY()).put("text", "100"));
-                    getGameState().increment("score", +100);
-                    /** adds 100 points to totalScore for the log, every time player knocks away enemy */
-                    totalScore = totalScore + 100;
-                }
-            }
-        });
-        getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.ENEMY, EntityType.ENEMY){
-            @Override protected void onCollisionBegin(Entity enemy1, Entity enemy2){
-                if (hasFreezePower){
-                    spawn("FrozenEnemyExplosion", enemy1.getPosition());
-                    spawn("FrozenEnemyExplosion", enemy2.getPosition());
-                    enemy1.removeFromWorld();
-                    enemy2.removeFromWorld();
-                }
-            }
-
-        });
         /** Adds unitCollision to left wall and player unit*/
         getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.LEFTWALL) {
             @Override
@@ -574,7 +520,6 @@ public class BasicGameApp extends GameApplication{
                 topWallTouched = false;
             }
         });
-
         /** Adds unitCollision to bottom wall and player unit*/
         getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.BOTTOMWALL) {
             @Override
@@ -595,7 +540,6 @@ public class BasicGameApp extends GameApplication{
         BasicGameApp.menuMusic = getAssetLoader().loadMusic("MainMenuMusic.mp3");
         getAudioPlayer().playMusic(BasicGameApp.menuMusic);
     }
-
     @Override
     protected void initInput(){
         Input input = getInput();
@@ -607,7 +551,6 @@ public class BasicGameApp extends GameApplication{
                     return;
                     //player.translateX(3); //Move right, 3 pixels, for 5760x1080
                     player.translateX(6); //Move right 5 pixels for 1920x1080
-                    //getGameState().increment("pixelsMoved", +3); Tracks pixels moved right
             }
         }, KeyCode.D);
 
@@ -618,7 +561,6 @@ public class BasicGameApp extends GameApplication{
                     return;
                 //player.translateX(-3); //move left -3 pixels. for 5760x1080
                 player.translateX(-6); //move left -5 pixels, for 1920x1080
-                //getGameState().increment("pixelsMoved", +3); Tracks pixels moved left
             }
         }, KeyCode.A);
 
@@ -639,10 +581,8 @@ public class BasicGameApp extends GameApplication{
                     return;
                 //player.translateY(3); //move 3 pixels down, for 5760x1080
                 player.translateY(6); //move down 5 pixels, for 1920x1080
-                //getGameState().increment("pixelsMoved", +3); Tracks pixels moved down
             }
         }, KeyCode.S);
-
             input.addAction(new UserAction("Shoot") {
                 @Override
                 protected void onAction(){
@@ -736,7 +676,6 @@ public class BasicGameApp extends GameApplication{
                 }
             }, MouseButton.PRIMARY);
         }
-
     @Override
     protected void onUpdate(double trf){
         if (playerLives == 0){
@@ -818,7 +757,6 @@ public class BasicGameApp extends GameApplication{
             UIEntityText = getGameWorld().spawn("entityText", new SpawnData(playerWeapon1.getX()-3, playerWeapon1.getY() - 10).put("text", "Fireball"));
             weapon1PowerAlive = true;
             weapon1Spawned = true;
-
         }
         if (totalScore > 29000 && totalScore < 30000 && !weapon2Spawned){
             playerWeapon2 = getGameWorld().spawn("PlayerWeapon2");
@@ -864,8 +802,8 @@ public class BasicGameApp extends GameApplication{
                 spawn("boss2Bullet", spawnData);
             }, Duration.seconds(1.5));
         }
-        if (totalScore > 500 && totalScore < 1500 && !boss3Spawned){
-        //if (totalScore > 94000 && totalScore < 95000 && !boss3Spawned){
+        //if (totalScore > 500 && totalScore < 1500 && !boss3Spawned){
+        if (totalScore > 94000 && totalScore < 95000 && !boss3Spawned){
             bossFightClearRoom();
             boss3 = getGameWorld().spawn("Boss3", getAppHeight() / 2, getAppWidth() / 2);
             boss3Alive = true;
@@ -958,7 +896,6 @@ public class BasicGameApp extends GameApplication{
             }, Duration.seconds(1));
         FXGL.set("poweredUp", true);
     }
-
     public void playerPowerOff(){
         UIPowerText.removeFromWorld();
         hasPowerUp = false;

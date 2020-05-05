@@ -342,11 +342,11 @@ public class BasicGameFactory implements EntityFactory{
         physics.setBodyType(BodyType.DYNAMIC);
         physics.setFixtureDef(new FixtureDef().restitution(1f).density(0.003f));
         ParticleEmitter emitter = ParticleEmitters.newFireEmitter();
-        emitter.setNumParticles(10);
-        emitter.setSize(12, 20);
+        emitter.setNumParticles(20);
+        emitter.setSize(10, 20);
         emitter.setEmissionRate(0.1);
         emitter.setStartColor(Color.DARKGREEN);
-        emitter.setEndColor(Color.DARKGREEN);
+        emitter.setEndColor(Color.LIGHTGREEN);
         emitter.setBlendMode(BlendMode.ADD);
         return entityBuilder()
                 .type(EntityType.BOSS3BULLET)
@@ -528,7 +528,7 @@ public class BasicGameFactory implements EntityFactory{
         var e = entityBuilder()
                 .from(data)
                 .view(getUIFactory().newText(text, Color.GOLD, 24))
-                .with(new ExpireCleanComponent(Duration.seconds(4)).animateOpacity())
+                .with(new ExpireCleanComponent(Duration.seconds(1)).animateOpacity())
                 .build();
         animationBuilder()
                 .duration(Duration.seconds(1))
@@ -548,11 +548,11 @@ public class BasicGameFactory implements EntityFactory{
                 .with(new ExpireCleanComponent(Duration.seconds(5)).animateOpacity())
                 .build();
         animationBuilder()
-                .duration(Duration.seconds(1)).repeatInfinitely()
+                .duration(Duration.seconds(6)).repeatInfinitely()
                 .interpolator(Interpolators.EXPONENTIAL.EASE_IN_OUT())
                 .translate(et)
                 .from(new Point2D(data.getX(), data.getY()))
-                .to(new Point2D(data.getX(), data.getY() + 5))
+                .to(new Point2D(data.getX(), data.getY() + 2))
                 .buildAndPlay();
         return et;
     }
