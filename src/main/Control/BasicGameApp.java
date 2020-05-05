@@ -516,6 +516,17 @@ public class BasicGameApp extends GameApplication{
                 }
             }
         });
+        getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.ENEMY, EntityType.ENEMY){
+            @Override protected void onCollisionBegin(Entity enemy1, Entity enemy2){
+                if (hasFreezePower){
+                    spawn("FrozenEnemyExplosion", enemy1.getPosition());
+                    spawn("FrozenEnemyExplosion", enemy2.getPosition());
+                    enemy1.removeFromWorld();
+                    enemy2.removeFromWorld();
+                }
+            }
+
+        });
         /** Adds unitCollision to left wall and player unit*/
         getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.LEFTWALL) {
             @Override
@@ -888,8 +899,8 @@ public class BasicGameApp extends GameApplication{
         var gameState = getUIFactory().newText("", 24);
         gameState.textProperty().bind(getip("gameState").asString("Game State:"));
 
-        addUINode(score, 15, 880);
-        addUINode(lives,775, 880);
+        addUINode(score, 15, 750);
+        addUINode(lives,775, 750);
         addUINode(gameState,10 , 40);
     }
     /**
@@ -964,7 +975,7 @@ public class BasicGameApp extends GameApplication{
         getAudioPlayer().stopSound(freezeOn);
         List<Entity> evilPuff = getGameWorld().getEntitiesFiltered(p -> p.isType(EntityType.ENEMY));
         for (int i = 0; i < evilPuff.size() ; i++){
-            evilPuff.get(i).setProperty("velocity", new Point2D((Math.random() * 1.25) + 1.50, (Math.random() * 1.25) + 1.50));
+            evilPuff.get(i).setProperty("velocity", new Point2D((Math.random() * 1.5) + 4, (Math.random() * 1.5) + 4));
         }
         FXGL.set("freezePoweredUp", false);
     }

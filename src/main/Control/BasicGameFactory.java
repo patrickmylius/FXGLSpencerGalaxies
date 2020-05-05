@@ -40,7 +40,7 @@ public class BasicGameFactory implements EntityFactory{
     public Entity Player(SpawnData data){
         ParticleEmitter emitter = ParticleEmitters.newFireEmitter();
         emitter.setNumParticles(8);
-        emitter.setSize(2, 8);
+        emitter.setSize(2, 6);
         emitter.setEmissionRate(0.075);
         emitter.setStartColor(Color.WHITESMOKE);
         emitter.setEndColor(Color.WHITESMOKE);
@@ -78,7 +78,7 @@ public class BasicGameFactory implements EntityFactory{
                     .viewWithBBox("enemy.gif")
                     .with(new CollidableComponent(true))
                     /**Sets speed on ENEMY For Laptop 1920x1080*/
-                    .with("velocity", new Point2D((Math.random() * 1.5) + 3, (Math.random() * 1) + 3))
+                    .with("velocity", new Point2D((Math.random() * 1.5) + 4, (Math.random() * 1.5) + 4))
                     /**Sets speed on ENEMY For Station 5760x1080*/
                     //.with("velocity", new Point2D((Math.random() * 1.25) + 1.50, (Math.random() * 1.25) + 1.50))
                     .with(new EnemyComponent())
@@ -254,7 +254,7 @@ public class BasicGameFactory implements EntityFactory{
         physics.setFixtureDef(new FixtureDef().restitution(1f).density(0.03f));
         ParticleEmitter emitter = ParticleEmitters.newFireEmitter();
         emitter.setNumParticles(8);
-        emitter.setEmissionRate(0.2);
+        emitter.setEmissionRate(0.1);
         emitter.setStartColor(Color.YELLOW);
         emitter.setEndColor(Color.WHITE);
         emitter.setBlendMode(BlendMode.ADD);
@@ -320,9 +320,9 @@ public class BasicGameFactory implements EntityFactory{
         physics.setBodyType(BodyType.KINEMATIC);
         physics.setFixtureDef(new FixtureDef().restitution(1f).density(0.003f));
         ParticleEmitter emitter = ParticleEmitters.newFireEmitter();
-        emitter.setNumParticles(4);
+        emitter.setNumParticles(6);
         emitter.setSize(2, 40);
-        emitter.setEmissionRate(0.2);
+        emitter.setEmissionRate(0.1);
         emitter.setStartColor(Color.YELLOW);
         emitter.setEndColor(Color.RED);
         emitter.setBlendMode(BlendMode.ADD);
@@ -342,9 +342,9 @@ public class BasicGameFactory implements EntityFactory{
         physics.setBodyType(BodyType.DYNAMIC);
         physics.setFixtureDef(new FixtureDef().restitution(1f).density(0.003f));
         ParticleEmitter emitter = ParticleEmitters.newFireEmitter();
-        emitter.setNumParticles(4);
+        emitter.setNumParticles(6);
         emitter.setSize(5, 30);
-        emitter.setEmissionRate(0.3);
+        emitter.setEmissionRate(0.05);
         emitter.setStartColor(Color.DARKGREEN);
         emitter.setEndColor(Color.DARKGREEN);
         emitter.setBlendMode(BlendMode.ADD);
@@ -360,9 +360,9 @@ public class BasicGameFactory implements EntityFactory{
     public Entity newParticleExplosionEnemyEaten(SpawnData data){
         ParticleEmitter emitter = ParticleEmitters.newExplosionEmitter((200));
         emitter.setStartColor(Color.RED);
-        emitter.setEndColor(Color.YELLOW);
+        emitter.setEndColor(Color.GREEN);
         emitter.setNumParticles(4);
-        emitter.setSize(10,20);
+        emitter.setSize(5,20);
         emitter.setBlendMode(BlendMode.ADD);
         ParticleComponent particles = new ParticleComponent(emitter);
         particles.setOnFinished(() -> particles.getEntity().removeFromWorld());
@@ -415,7 +415,7 @@ public class BasicGameFactory implements EntityFactory{
         emitter.setEndColor(Color.YELLOWGREEN);
         emitter.setNumParticles(8);
         emitter.setSize(3,20);
-        emitter.setEmissionRate(0.6);
+        emitter.setEmissionRate(0.3);
         emitter.setBlendMode(BlendMode.ADD);
         ParticleComponent particles = new ParticleComponent(emitter);
         particles.setOnFinished(() -> particles.getEntity().removeFromWorld());
@@ -480,7 +480,7 @@ public class BasicGameFactory implements EntityFactory{
         emitter.setEndColor(Color.RED);
         emitter.setNumParticles(15);
         emitter.setSize(3, 25);
-        emitter.setEmissionRate(10.0);
+        emitter.setEmissionRate(0.2);
         emitter.setBlendMode(BlendMode.ADD);
         ParticleComponent particles = new ParticleComponent(emitter);
         particles.setOnFinished(() -> particles.getEntity().removeFromWorld());
@@ -496,6 +496,23 @@ public class BasicGameFactory implements EntityFactory{
         emitter.setEndColor(Color.RED);
         emitter.setNumParticles(10);
         emitter.setSize(3,10);
+        emitter.setBlendMode(BlendMode.ADD);
+        ParticleComponent particles = new ParticleComponent(emitter);
+        particles.setOnFinished(() -> particles.getEntity().removeFromWorld());
+
+        return entityBuilder()
+                .from(data)
+                .with(particles)
+                .build();
+    }
+    @Spawns("FrozenEnemyExplosion")
+    public Entity newFrozenEnemyExplosion(SpawnData data){
+        ParticleEmitter emitter = ParticleEmitters.newExplosionEmitter((200));
+        emitter.setStartColor(Color.BLUE);
+        emitter.setEndColor(Color.LIGHTBLUE);
+        emitter.setNumParticles(5);
+        emitter.setEmissionRate(0.5);
+        emitter.setSize(3,20);
         emitter.setBlendMode(BlendMode.ADD);
         ParticleComponent particles = new ParticleComponent(emitter);
         particles.setOnFinished(() -> particles.getEntity().removeFromWorld());
