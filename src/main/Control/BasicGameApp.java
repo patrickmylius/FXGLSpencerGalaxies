@@ -1,4 +1,5 @@
 package main.Control;
+import com.almasb.fxgl.physics.box2d.dynamics.contacts.Velocity;
 import main.Menues.SpencerGameMenu;
 import main.Menues.SpencerMainMenu;
 import main.Control.Handlers.FreezePowerHandler;
@@ -221,7 +222,7 @@ public class BasicGameApp extends GameApplication{
                     UIEntityText = getGameWorld().spawn("entityText", new SpawnData(freezePower.getX() - 10, freezePower.getY() - 10).put("text", "Slow time"));
                     getAudioPlayer().playSound(freezePowerEntrySound);
                     freezePowerAlive = true;
-                }, Duration.seconds(18));
+                }, Duration.seconds(5));
                 TimerFreezePowerUp.resume();
         }
         /** Create new Entity (Player) */
@@ -370,7 +371,8 @@ public class BasicGameApp extends GameApplication{
                     Point2D velocity = enemy.getObject("velocity");
                     enemy.translate(velocity);
                     //If player and enemy collides during freeze powerup, enemy will change direction.
-                    enemy.setProperty("velocity", new Point2D( (Math.random() * 1.5) + 7.0, (Math.random() * 1.5) + 7.0));
+                    enemy.setProperty("velocity", new Point2D((Math.random() * 10), Math.random()* 10));
+                    //enemy.setProperty("velocity", new Point2D((player.getX() - (velocity.getX() * 1)), (player.getY() - (velocity.getY()) * 0.75)));
                     Sound EnemyFreezeKnock = getAssetLoader().loadSound("EnemyFreezeKnock.wav");
                     getAudioPlayer().playSound(EnemyFreezeKnock);
                     spawn("scoreText", new SpawnData(enemy.getX(), enemy.getY()).put("text", "100"));
@@ -906,9 +908,10 @@ public class BasicGameApp extends GameApplication{
             getAudioPlayer().playSound(freezeOn);
             /** Sets duration of the player FreezeOnBuff */
             }, Duration.seconds(1));
-        List<Entity> evilPuff = getGameWorld().getEntitiesFiltered(p -> p.isType(EntityType.ENEMY));
-        for (int i = 0; i <evilPuff.size() ; i++){
-            evilPuff.get(i).setProperty("velocity", new Point2D((Math.random() * 0.5) + 1, (Math.random() * 0.5) + 1));
+        List<Entity> enemy = getGameWorld().getEntitiesFiltered(p -> p.isType(EntityType.ENEMY));
+        for (int i = 0; i <enemy.size() ; i++){
+            //enemy.get(i).setProperty("velocity", new Point2D((() * 0.5) + 1, (Math.random() * 0.5) + 1));
+            enemy.get(i).setProperty("velocity", new Point2D((Math.random()) - 2, (Math.random()) - 2 ));
         }
         FXGL.set("freezePoweredUp", true);
     }
@@ -922,9 +925,9 @@ public class BasicGameApp extends GameApplication{
         getAudioPlayer().playMusic(music);
         Sound freezeOn = getAssetLoader().loadSound("FreezeOn.wav");
         getAudioPlayer().stopSound(freezeOn);
-        List<Entity> evilPuff = getGameWorld().getEntitiesFiltered(p -> p.isType(EntityType.ENEMY));
-        for (int i = 0; i < evilPuff.size() ; i++){
-            evilPuff.get(i).setProperty("velocity", new Point2D((Math.random() * 1.5) + 4, (Math.random() * 1.5) + 4));
+        List<Entity> enemy = getGameWorld().getEntitiesFiltered(p -> p.isType(EntityType.ENEMY));
+        for (int i = 0; i < enemy.size() ; i++){
+            enemy.get(i).setProperty("velocity", new Point2D(((Math.random()) + 4), ((Math.random()) + 4)));
         }
         FXGL.set("freezePoweredUp", false);
     }
