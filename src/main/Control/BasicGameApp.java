@@ -112,6 +112,7 @@ public class BasicGameApp extends GameApplication{
     private Entity coin;
     private Entity powerUp;
     private Entity freezePower;
+    private Entity frozenCircle;
     private Entity playerWeapon1;
     private Entity playerWeapon2;
     private Entity playerWeapon3;
@@ -475,6 +476,12 @@ public class BasicGameApp extends GameApplication{
                 getGameState().increment("score", +250);
                 /** adds 250 points to totalScore for the log, every time player eats EvilPuff */
                 totalScore = totalScore + 250;
+            }
+        });
+        getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.FROZENCIRCLE, EntityType.ENEMY){
+            @Override
+            protected void onCollisionBegin(Entity frozenCircle, Entity enemy){
+                enemy.setProperty("velocity", new Point2D((Math.random()) - 2, (Math.random()) - 2 ));
             }
         });
         /** Adds unitCollision to left wall and player unit*/
@@ -898,6 +905,7 @@ public class BasicGameApp extends GameApplication{
     public void playerFreezePowerUp(){
         UIFreezeText = getGameWorld().spawn("playerBuffText", new SpawnData(200, 40).put("text", "ENEMY FROZEN KNOCK EM OUT"));
         hasFreezePower = true;
+        frozenCircle = getGameWorld().spawn("FrozenCircle", getAppWidth() / 2, getAppHeight() / 2);
         //getAudioPlayer().stopMusic(music);
         //getAudioPlayer().playMusic();
         TimerPowerUp.pause();
@@ -906,13 +914,13 @@ public class BasicGameApp extends GameApplication{
         FXGL.runOnce(() ->{
             Sound freezeOn = getAssetLoader().loadSound("FreezeOn.wav");
             getAudioPlayer().playSound(freezeOn);
+            frozenCircle.removeFromWorld();
             /** Sets duration of the player FreezeOnBuff */
-            }, Duration.seconds(1));
-        List<Entity> enemy = getGameWorld().getEntitiesFiltered(p -> p.isType(EntityType.ENEMY));
-        for (int i = 0; i <enemy.size() ; i++){
-            //enemy.get(i).setProperty("velocity", new Point2D((() * 0.5) + 1, (Math.random() * 0.5) + 1));
-            enemy.get(i).setProperty("velocity", new Point2D((Math.random()) - 2, (Math.random()) - 2 ));
-        }
+            }, Duration.seconds(0.75));
+            //List<Entity> enemy = getGameWorld().getEntitiesFiltered(p -> p.isType(EntityType.ENEMY));
+            //for (int i = 0; i <enemy.size() ; i++){
+            //enemy.get(i).setProperty("velocity", new Point2D((Math.random()) - 2, (Math.random()) - 2 ));
+            //}
         FXGL.set("freezePoweredUp", true);
     }
     public void playerFreezePowerOff(){

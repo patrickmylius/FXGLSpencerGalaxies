@@ -1,5 +1,10 @@
 package main.Control;
 
+import com.almasb.fxgl.entity.components.BoundingBoxComponent;
+import com.almasb.fxgl.physics.CircleShapeData;
+import com.almasb.fxgl.physics.box2d.collision.shapes.CircleShape;
+import javafx.scene.shape.Box;
+import javafx.scene.shape.Circle;
 import main.EntityType;
 import main.Control.Components.BossComponent;
 import main.Control.Components.EnemyComponent;
@@ -186,9 +191,10 @@ public class BasicGameFactory implements EntityFactory{
     public Entity frozenCircle(SpawnData data){
         return entityBuilder()
                 .type(EntityType.FROZENCIRCLE)
-                .with(new FrozenCircleAnimation())
+                .viewWithBBox("frozenCircleTest.gif")
+                //.with(new FrozenCircleAnimation())
                 .at(data.getX() - 450, data.getY() - 450)
-                .with(new ExpireCleanComponent(Duration.seconds(4.0)))
+                .with(new CollidableComponent(true))
                 .build();
     }
     @Spawns("PlayerWeapon1")
@@ -614,7 +620,7 @@ class FrozenCircleAnimation extends Component{
     private AnimationChannel frozenCircle;
 
     public FrozenCircleAnimation(){
-        frozenCircle = new AnimationChannel(FXGL.image("frozenCircleStream.png"), 6, 800, 800, Duration.seconds(1), 0, 6);
+        frozenCircle = new AnimationChannel(FXGL.image("frozenCircleStream.png"), 6, 800, 800, Duration.seconds(0.75), 0, 6);
         texture = new AnimatedTexture(frozenCircle);
     }
     @Override

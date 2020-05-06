@@ -22,7 +22,7 @@ public class FreezePowerHandler extends CollisionHandler {
     @Override
     protected void onCollisionBegin(Entity freezePower, Entity player){
         FXGL.<BasicGameApp>getAppCast().playerFreezePowerUp();
-        frozenCircle = getGameWorld().spawn("FrozenCircle", player.getPosition());
+        //frozenCircle = getGameWorld().spawn("FrozenCircle", player.getPosition());
         freezePower.removeFromWorld();
         Sound freezePowerCollide = getAssetLoader().loadSound("FreezePowerCollide.wav");
         getAudioPlayer().playSound(freezePowerCollide);
