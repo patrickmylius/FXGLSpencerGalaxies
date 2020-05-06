@@ -905,7 +905,7 @@ public class BasicGameApp extends GameApplication{
     public void playerFreezePowerUp(){
         UIFreezeText = getGameWorld().spawn("playerBuffText", new SpawnData(200, 40).put("text", "ENEMY FROZEN KNOCK EM OUT"));
         hasFreezePower = true;
-        frozenCircle = getGameWorld().spawn("FrozenCircle", getAppWidth() / 2, getAppHeight() / 2);
+        frozenCircle = getGameWorld().spawn("FrozenCircle", player.getPosition());
         //getAudioPlayer().stopMusic(music);
         //getAudioPlayer().playMusic();
         TimerPowerUp.pause();
@@ -916,11 +916,11 @@ public class BasicGameApp extends GameApplication{
             getAudioPlayer().playSound(freezeOn);
             frozenCircle.removeFromWorld();
             /** Sets duration of the player FreezeOnBuff */
-            }, Duration.seconds(0.75));
-            //List<Entity> enemy = getGameWorld().getEntitiesFiltered(p -> p.isType(EntityType.ENEMY));
-            //for (int i = 0; i <enemy.size() ; i++){
-            //enemy.get(i).setProperty("velocity", new Point2D((Math.random()) - 2, (Math.random()) - 2 ));
-            //}
+            }, Duration.seconds(1));
+                List<Entity> enemy = getGameWorld().getEntitiesFiltered(p -> p.isType(EntityType.ENEMY));
+                for (int i = 0; i <enemy.size() ; i++){
+                enemy.get(i).setProperty("velocity", new Point2D((Math.random()) - 2, (Math.random()) - 2 ));
+                }
         FXGL.set("freezePoweredUp", true);
     }
     public void playerFreezePowerOff(){

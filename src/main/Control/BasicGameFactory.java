@@ -191,10 +191,9 @@ public class BasicGameFactory implements EntityFactory{
     public Entity frozenCircle(SpawnData data){
         return entityBuilder()
                 .type(EntityType.FROZENCIRCLE)
-                .viewWithBBox("frozenCircleTest.gif")
-                //.with(new FrozenCircleAnimation())
+                .with(new FrozenCircleAnimation())
                 .at(data.getX() - 450, data.getY() - 450)
-                .with(new CollidableComponent(true))
+                .with(new CollidableComponent(true), new ExpireCleanComponent(Duration.seconds(2.0)))
                 .build();
     }
     @Spawns("PlayerWeapon1")
