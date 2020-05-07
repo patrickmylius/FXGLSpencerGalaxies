@@ -38,7 +38,6 @@ import static com.almasb.fxgl.dsl.FXGL.*;
 /** DESIGNS */
 //TODO - New HighScore Design
 //TODO - New Icon Design
-//TODO - New Game State (map freeze gif map corners. (Working out the idea)
 /** IMPLEMENTS */
 //TODO - IMPLEMENT CountnDown Buff bar for player.
 //TODO - Implement Game End/Won at etc points.
