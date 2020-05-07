@@ -112,7 +112,7 @@ public class BasicGameApp extends GameApplication{
     private Entity coin;
     private Entity powerUp;
     private Entity freezePower;
-    private Entity frozenCircle;
+    private Entity frozenAura;
     private Entity playerWeapon1;
     private Entity playerWeapon2;
     private Entity playerWeapon3;
@@ -905,16 +905,15 @@ public class BasicGameApp extends GameApplication{
     public void playerFreezePowerUp(){
         UIFreezeText = getGameWorld().spawn("playerBuffText", new SpawnData(200, 40).put("text", "ENEMY FROZEN KNOCK EM OUT"));
         hasFreezePower = true;
-        frozenCircle = getGameWorld().spawn("FrozenCircle", player.getPosition());
         //getAudioPlayer().stopMusic(music);
         //getAudioPlayer().playMusic();
         TimerPowerUp.pause();
         TimerFreezePowerUp.pause();
         getAudioPlayer().stopMusic(music);
+        frozenAura = getGameWorld().spawn("FrozenAura");
         FXGL.runOnce(() ->{
             Sound freezeOn = getAssetLoader().loadSound("FreezeOn.wav");
             getAudioPlayer().playSound(freezeOn);
-            frozenCircle.removeFromWorld();
             /** Sets duration of the player FreezeOnBuff */
             }, Duration.seconds(1));
                 List<Entity> enemy = getGameWorld().getEntitiesFiltered(p -> p.isType(EntityType.ENEMY));
@@ -930,6 +929,7 @@ public class BasicGameApp extends GameApplication{
         //getAudioPlayer().playMusic(music);
         TimerPowerUp.resume();
         TimerFreezePowerUp.resume();
+        frozenAura.removeFromWorld();
         getAudioPlayer().playMusic(music);
         Sound freezeOn = getAssetLoader().loadSound("FreezeOn.wav");
         getAudioPlayer().stopSound(freezeOn);

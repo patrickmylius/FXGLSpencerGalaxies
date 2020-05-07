@@ -196,6 +196,14 @@ public class BasicGameFactory implements EntityFactory{
                 .with(new CollidableComponent(true), new ExpireCleanComponent(Duration.seconds(2.0)))
                 .build();
     }
+    @Spawns("FrozenAura")
+    public Entity frozenAura(SpawnData data){
+        return entityBuilder()
+                .type(EntityType.AURA)
+                .at(0, 0)
+                .view("FrozenAura.gif")
+                .build();
+    }
     @Spawns("PlayerWeapon1")
     public Entity playerWeapon1(SpawnData data){
         return entityBuilder()
