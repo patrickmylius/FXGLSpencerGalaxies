@@ -41,6 +41,7 @@ import static com.almasb.fxgl.dsl.FXGL.*;
 /** IMPLEMENTS */
 //TODO - IMPLEMENT CountnDown Buff bar for player.
 //TODO - Implement Game End/Won at etc points.
+//TODO - Implement playerLives +1 on Boss kill (Mowgli credits)
 /**SOUND EFFECTS*/
 //TODO - BOSS1,2,3 Spawn Sound Effect + 3 Theme Songs + BULLETFIRE SOUND EFFECT, BULLETHIT SOUND EFFECT.
 //TODO - BOSS1,2,3 BULLET SOUND EFFECT
@@ -222,7 +223,7 @@ public class BasicGameApp extends GameApplication{
                     UIEntityText = getGameWorld().spawn("entityText", new SpawnData(freezePower.getX() - 10, freezePower.getY() - 10).put("text", "Slow time"));
                     getAudioPlayer().playSound(freezePowerEntrySound);
                     freezePowerAlive = true;
-                }, Duration.seconds(5));
+                }, Duration.seconds(19));
                 TimerFreezePowerUp.resume();
         }
         /** Create new Entity (Player) */
@@ -909,7 +910,7 @@ public class BasicGameApp extends GameApplication{
         TimerPowerUp.pause();
         TimerFreezePowerUp.pause();
         getAudioPlayer().stopMusic(music);
-        frozenAura = getGameWorld().spawn("FrozenAura");
+        //frozenAura = getGameWorld().spawn("FrozenAura");
         FXGL.runOnce(() ->{
             Sound freezeOn = getAssetLoader().loadSound("FreezeOn.wav");
             getAudioPlayer().playSound(freezeOn);
@@ -928,7 +929,7 @@ public class BasicGameApp extends GameApplication{
         //getAudioPlayer().playMusic(music);
         TimerPowerUp.resume();
         TimerFreezePowerUp.resume();
-        frozenAura.removeFromWorld();
+        //frozenAura.removeFromWorld();
         getAudioPlayer().playMusic(music);
         Sound freezeOn = getAssetLoader().loadSound("FreezeOn.wav");
         getAudioPlayer().stopSound(freezeOn);

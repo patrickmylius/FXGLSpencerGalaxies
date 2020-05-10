@@ -1,15 +1,5 @@
 package main.Control;
 
-import com.almasb.fxgl.entity.components.BoundingBoxComponent;
-import com.almasb.fxgl.physics.CircleShapeData;
-import com.almasb.fxgl.physics.box2d.collision.shapes.CircleShape;
-import javafx.scene.shape.Box;
-import javafx.scene.shape.Circle;
-import main.EntityType;
-import main.Control.Components.BossComponent;
-import main.Control.Components.EnemyComponent;
-import main.Control.Components.OwnerComponent;
-
 import com.almasb.fxgl.animation.Interpolators;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.*;
@@ -36,13 +26,33 @@ import javafx.scene.effect.BlendMode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import main.Control.Components.BossComponent;
+import main.Control.Components.EnemyComponent;
+import main.Control.Components.OwnerComponent;
+import main.Control.Handlers.FreezePowerHandler;
+import main.EntityType;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 
 public class BasicGameFactory implements EntityFactory{
 
+    public boolean isFreezeUp(){
+        return freezePoweredUp;
+    }
+    public void setFreezeUp(boolean freezePoweredUp){
+        this.freezePoweredUp = freezePoweredUp;
+    }
+    private boolean freezePoweredUp;
+
     @Spawns("Player")
     public Entity Player(SpawnData data){
+        var buffTimerView = new ProgressBar(true);
+        buffTimerView.setFill(Color.YELLOW);
+        buffTimerView.setTranslateY(100);
+        buffTimerView.setWidth(100);
+        buffTimerView.setHeight(10);
+        //buffTimerView.currentValueProperty().bind;
+
         ParticleEmitter emitter = ParticleEmitters.newFireEmitter();
         emitter.setNumParticles(8);
         emitter.setSize(2, 6);
@@ -196,14 +206,14 @@ public class BasicGameFactory implements EntityFactory{
                 .with(new CollidableComponent(true), new ExpireCleanComponent(Duration.seconds(2.0)))
                 .build();
     }
-    @Spawns("FrozenAura")
-    public Entity frozenAura(SpawnData data){
-        return entityBuilder()
-                .type(EntityType.AURA)
-                .at(0, 0)
-                .view("FrozenAura.gif")
-                .build();
-    }
+//    @Spawns("FrozenAura")
+//    public Entity frozenAura(SpawnData data){
+//        return entityBuilder()
+//                .type(EntityType.AURA)
+//                .at(0, 0)
+//                .view("FrozenAura.gif")
+//                .build();
+//    }
     @Spawns("PlayerWeapon1")
     public Entity playerWeapon1(SpawnData data){
         return entityBuilder()
