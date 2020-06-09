@@ -24,6 +24,7 @@ import javafx.animation.Interpolator;
 import javafx.geometry.Point2D;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import main.Control.Components.BossComponent;
@@ -214,6 +215,15 @@ public class BasicGameFactory implements EntityFactory{
 //                .view("FrozenAura.gif")
 //                .build();
 //    }
+@Spawns("ExtraLife")
+public Entity newExtraLife(SpawnData data){
+    return entityBuilder()
+            .from(data)
+            .type(EntityType.EXTRALIFE)
+            .viewWithBBox(new Rectangle(30, 30, Color.DARKRED))
+            .with(new CollidableComponent(true), new KeepOnScreenComponent().bothAxes())
+            .build();
+}
     @Spawns("PlayerWeapon1")
     public Entity playerWeapon1(SpawnData data){
         return entityBuilder()

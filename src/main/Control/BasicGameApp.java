@@ -1,12 +1,8 @@
 package main.Control;
 import com.almasb.fxgl.physics.box2d.dynamics.contacts.Velocity;
+import main.Control.Handlers.*;
 import main.Menues.SpencerGameMenu;
 import main.Menues.SpencerMainMenu;
-import main.Control.Handlers.FreezePowerHandler;
-import main.Control.Handlers.PowerUpHandler;
-import main.Control.Handlers.PlayerWeapon1Handler;
-import main.Control.Handlers.PlayerWeapon2Handler;
-import main.Control.Handlers.PlayerWeapon3Handler;
 import main.EntityType;
 import com.almasb.fxgl.animation.Interpolators;
 import com.almasb.fxgl.app.*;
@@ -34,7 +30,7 @@ import java.util.Map;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 /** FIXES */
-//TODO - Fix frozen Enemies move pattern.
+
 /** DESIGNS */
 //TODO - New HighScore Design
 //TODO - New Icon Design
@@ -112,6 +108,7 @@ public class BasicGameApp extends GameApplication{
     private Entity coin;
     private Entity powerUp;
     private Entity freezePower;
+    private Entity extraLife;
     private Entity frozenAura;
     private Entity playerWeapon1;
     private Entity playerWeapon2;
@@ -273,6 +270,7 @@ public class BasicGameApp extends GameApplication{
         getPhysicsWorld().addCollisionHandler(new PlayerWeapon1Handler());
         getPhysicsWorld().addCollisionHandler(new PlayerWeapon2Handler());
         getPhysicsWorld().addCollisionHandler(new PlayerWeapon3Handler());
+        getPhysicsWorld().addCollisionHandler(new ExtraLifeHandler());
         getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.COIN){
             @Override
             protected void onCollisionBegin(Entity player, Entity coin){
@@ -1032,6 +1030,7 @@ public class BasicGameApp extends GameApplication{
     public void killBoss1(Entity boss1){
         UIBossFightText.removeFromWorld();
         spawn("ParticleExplosionBoss1Dead", boss1.getCenter());
+        extraLife = getGameWorld().spawn("ExtraLife", boss1.getCenter());
         boss1.removeFromWorld();
         FXGL.set("bossFightOn", false);
         bossFightOn = false;
@@ -1049,6 +1048,7 @@ public class BasicGameApp extends GameApplication{
     public void killBoss2(Entity boss2){
         UIBossFightText.removeFromWorld();
         spawn("ParticleExplosionBoss2Dead", boss2.getCenter());
+        spawn("ExtraLife", boss2.getCenter());
         boss2.removeFromWorld();
         FXGL.set("bossFightOn", false);
         bossFightOn = false;
@@ -1066,6 +1066,7 @@ public class BasicGameApp extends GameApplication{
     public void killBoss3(Entity boss3){
         UIBossFightText.removeFromWorld();
         spawn("ParticleExplosionBoss3Dead", boss3.getCenter());
+        spawn("ExtraLife", boss3.getCenter());
         boss3.removeFromWorld();
         FXGL.set("bossFightOn", false);
         bossFightOn = false;

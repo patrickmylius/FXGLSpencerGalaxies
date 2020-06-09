@@ -19,5 +19,3 @@ Player PrintToFile: your score ended as: 1000
 ************************************
 Player Tester: your score ended as: 750
 ************************************
-Player Udvikleren stinker: your score ended as: 11150
-************************************
