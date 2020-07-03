@@ -5,7 +5,7 @@ Player Patrick: your score ended as: 500
 ************************************
 Player Daller: your score ended as: 500
 ************************************
-Player Patrick: your score ended as: 6500
+Player Patrick: your score ended as: 65000
 ************************************
 Player Andreas: your score ended as: 6500
 ************************************
@@ -18,4 +18,7 @@ Player Mosegård: your score ended as: 1500
 Player PrintToFile: your score ended as: 1000
 ************************************
 Player Tester: your score ended as: 750
+************************************
+
+Player DonDiller: your score ended as: 19450
 ************************************

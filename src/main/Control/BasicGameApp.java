@@ -30,7 +30,7 @@ import java.util.Map;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 /** FIXES */
-
+//TODO - BOSS SPAWNED at GAME START, DUE TO NEW HP BUFF. Mby.
 /** DESIGNS */
 //TODO - New HighScore Design
 //TODO - New Icon Design
@@ -1013,6 +1013,11 @@ public class BasicGameApp extends GameApplication{
     public void bossFightClearRoom(){
         //getAudioPlayer().stopMusic(music);
         //getAudioPlayer().playMusic();
+        playerFreezePowerOff();
+        playerPowerOff();
+        playerWeapon1Off();
+        playerWeapon2Off();
+        playerWeapon3Off();
         bossFightOn = true;
         enemyStampede = false;
         FXGL.set("bossFightOn", true);
