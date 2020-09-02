@@ -20,6 +20,7 @@ public class ExtraLifeHandler extends CollisionHandler {
     @Override
     protected void onCollisionBegin(Entity ExtraLife, Entity player){
         getGameState().increment("lives", +1);
+        FXGL.<BasicGameApp>getAppCast().addExtraLife();
         Sound extraLifePickUp = getAssetLoader().loadSound("extraLifePickUp.wav");
         getAudioPlayer().playSound(extraLifePickUp);
         ExtraLife.removeFromWorld();

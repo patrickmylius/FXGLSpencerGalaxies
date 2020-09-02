@@ -30,14 +30,12 @@ import java.util.Map;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 /** FIXES */
-//TODO - BOSS SPAWNED at GAME START, DUE TO NEW HP BUFF. Mby.
+
 /** DESIGNS */
 //TODO - New HighScore Design
 //TODO - New Icon Design
 /** IMPLEMENTS */
-//TODO - IMPLEMENT CountnDown Buff bar for player.
 //TODO - Implement Game End/Won at etc points.
-//TODO - Implement playerLives +1 on Boss kill (Mowgli credits)
 /**SOUND EFFECTS*/
 //TODO - BOSS1,2,3 Spawn Sound Effect + 3 Theme Songs + BULLETFIRE SOUND EFFECT, BULLETHIT SOUND EFFECT.
 //TODO - BOSS1,2,3 BULLET SOUND EFFECT
@@ -764,7 +762,7 @@ public class BasicGameApp extends GameApplication{
             weapon3PowerAlive = true;
             weapon3Spawned = true;
         }
-        //if (totalScore > 500 && totalScore < 1500 && !boss1Spawned){
+        //if (totalScore > 600 && totalScore < 1500 && !boss1Spawned){
         if (totalScore > 19000 && totalScore < 19700 && !boss1Spawned){
             bossFightClearRoom();
             boss1 = getGameWorld().spawn("Boss1", getAppHeight() / 2, getAppWidth() / 2);
@@ -882,6 +880,9 @@ public class BasicGameApp extends GameApplication{
         hasPowerUp = true;
         TimerPowerUp.pause();
         TimerFreezePowerUp.pause();
+        if (hasFreezePower){
+            playerFreezePowerOff();
+        }
         getAudioPlayer().stopMusic(music);
         FXGL.runOnce(() ->{
             Sound poweredUp = getAssetLoader().loadSound("PoweredUp.wav");
@@ -907,6 +908,9 @@ public class BasicGameApp extends GameApplication{
         //getAudioPlayer().playMusic();
         TimerPowerUp.pause();
         TimerFreezePowerUp.pause();
+        if (hasPowerUp){
+            playerPowerOff();
+        }
         getAudioPlayer().stopMusic(music);
         //frozenAura = getGameWorld().spawn("FrozenAura");
         FXGL.runOnce(() ->{
@@ -945,6 +949,12 @@ public class BasicGameApp extends GameApplication{
         //getAudioPlayer().playMusic();
         TimerPowerUp.pause();
         TimerFreezePowerUp.pause();
+        if (hasFreezePower){
+            playerFreezePowerOff();
+        }
+        if (hasPowerUp){
+            playerPowerOff();
+        }
         TimerStampede.resume();
         FXGL.set("enemyStampede", true);
         FXGL.set("playerWeapon1Up", true);
@@ -967,6 +977,12 @@ public class BasicGameApp extends GameApplication{
         enemyStampede = true;
         TimerPowerUp.pause();
         TimerFreezePowerUp.pause();
+        if (hasFreezePower){
+            playerFreezePowerOff();
+        }
+        if (hasPowerUp){
+            playerPowerOff();
+        }
         //getAudioPlayer().stopMusic(music);
         //getAudioPlayer().playMusic();
         TimerStampede.resume();
@@ -991,6 +1007,12 @@ public class BasicGameApp extends GameApplication{
         enemyStampede = true;
         TimerPowerUp.pause();
         TimerFreezePowerUp.pause();
+        if (hasFreezePower){
+            playerFreezePowerOff();
+        }
+        if (hasPowerUp){
+            playerPowerOff();
+        }
         //getAudioPlayer().stopMusic(music);
         //getAudioPlayer().playMusic();
         TimerStampede.resume();
@@ -1013,11 +1035,21 @@ public class BasicGameApp extends GameApplication{
     public void bossFightClearRoom(){
         //getAudioPlayer().stopMusic(music);
         //getAudioPlayer().playMusic();
-        playerFreezePowerOff();
-        playerPowerOff();
-        playerWeapon1Off();
-        playerWeapon2Off();
-        playerWeapon3Off();
+        if (hasFreezePower){
+            playerFreezePowerOff();
+        }
+        if (hasPowerUp){
+            playerPowerOff();
+        }
+        if (hasWeapon1Power){
+            playerWeapon1Off();
+        }
+        if (hasWeapon2Power) {
+            playerWeapon2Off();
+        }
+        if (hasWeapon3Power) {
+            playerWeapon3Off();
+        }
         bossFightOn = true;
         enemyStampede = false;
         FXGL.set("bossFightOn", true);
@@ -1053,7 +1085,7 @@ public class BasicGameApp extends GameApplication{
     public void killBoss2(Entity boss2){
         UIBossFightText.removeFromWorld();
         spawn("ParticleExplosionBoss2Dead", boss2.getCenter());
-        spawn("ExtraLife", boss2.getCenter());
+        extraLife = getGameWorld().spawn("ExtraLife", boss2.getCenter());
         boss2.removeFromWorld();
         FXGL.set("bossFightOn", false);
         bossFightOn = false;
@@ -1105,6 +1137,10 @@ public class BasicGameApp extends GameApplication{
         vars.put("playerWeapon2Up", false);
         vars.put("playerWeapon3Up", false);
     }
+    public void addExtraLife(){
+        playerLives++;
+    }
+
     private void respawn(){
         safeRespawn = true;
         player = spawn("Player", 300, 300);

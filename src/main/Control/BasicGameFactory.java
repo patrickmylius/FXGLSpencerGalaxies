@@ -220,7 +220,7 @@ public Entity newExtraLife(SpawnData data){
     return entityBuilder()
             .from(data)
             .type(EntityType.EXTRALIFE)
-            .viewWithBBox(new Rectangle(30, 30, Color.DARKRED))
+            .viewWithBBox("heart1.png")
             .with(new CollidableComponent(true), new KeepOnScreenComponent().bothAxes())
             .build();
 }

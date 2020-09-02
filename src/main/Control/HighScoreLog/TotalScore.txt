@@ -22,3 +22,5 @@ Player Tester: your score ended as: 750
 
 Player DonDiller: your score ended as: 19450
 ************************************
+Player Developer: your score ended as: 26350
+************************************
